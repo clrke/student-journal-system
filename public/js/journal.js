@@ -9,10 +9,6 @@ function JournalController ($scope, $http) {
 		$http.get('timelines/current/id').success(function(timeline_id) {
 			$scope.timeline_id = timeline_id;
 		});
-
-		$http.get('timelines/').success(function(timelines) {
-			$scope.timelines = timelines;
-		});
 	}
 
 	refresh();

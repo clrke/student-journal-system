@@ -4,10 +4,10 @@ class SubjectsTableSeeder extends Seeder
 {
 	public function run()
 	{
-		Subjects::truncate();
+		Subject::truncate();
 
-		Subjects::create(['timeline_id' => 1, 'subject' => 'Biological Sciences']);
-		Subjects::create(['timeline_id' => 1, 'subject' => 'Digital Speech and Audio Processing']);
+		Subject::create(['timeline_id' => 1, 'subject' => 'Biological Sciences']);
+		Subject::create(['timeline_id' => 1, 'subject' => 'Digital Speech and Audio Processing']);
 			
 	}
 }
