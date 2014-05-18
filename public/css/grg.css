@@ -1,0 +1,33 @@
+/*.container2 { background-color: #EEE; } */
+.jumbotron { background-color: #FFF; }
+.pager2 { margin:0 !important; }
+.highlight { background-color: #EFEFEF; padding: 5px; }
+.panel-login {padding: 60px;}
+.table-fixed {table-layout: fixed;}
+/*.table-center-headers th {text-align: center;}*/
+/*.table-center-all td, th {text-align: center;   }*/
+.highest { color: white;}
+.buttons { padding-right:20px;}
+.errormsg { color:red; font-size:11px; font-weight:normal; }
+.requiredMark { color:red; font-size:15px;}
+.descriptionMsg { color:gray; font-size: 11px; font-style: italic; }
+.vertical
+{
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    display: block;
+    height: 100px;
+    text-align: center;
+    vertical-align: middle;
+}
+.font-12 {font-size: 80%;}
+.perspective-id { display: none; }
+.objective-id { display: none; }
+.red { color:red; }
+.blue { color:blue; }
+.center-text { text-align: center;}
+.hide {display: none; }
