@@ -11,18 +11,22 @@
 		<?php $first = true; ?>
 		@foreach($daysOfWeek as $key => $day)
 			@if( $debug || count(Timeline::current()->schedules()->whereDayOfWeek($key)->get()))
-				<h3> {{$day}} </h3>
+				@if($first)
+					<h1> <b> {{$day}} </b> </h1>
+				@else
+					<h3> {{$day}} </h3>
+				@endif
 				<div class= "panel panel-default">
 					<ul class="list-group">
 						@foreach(Timeline::current()->schedules()->whereDayOfWeek($key)->get() as $schedule)
-							<li class="list-group-item {{$first ? 'active' : ''}}">
+							<li class="list-group-item">
 								{{ $schedule->subject->subject }}
 							</li>
 						@endforeach
 						@if($debug)
 							<li class="list-group-item">
 								{{ Form::open(['route' => 'schedules.store', 'class' => 'form'])}}
-									{{ Form::select('subject_id', Timeline::current()->subjects()->lists('subject', 'id'), null, ['class' => 'form-control'])}}
+									{{ Form::select('subject_id', $subjectsList, null, ['class' => 'form-control'])}}
 									{{ Form::hidden('day_of_week', $key)}}
 									{{ Form::submit('Add Subject', ['class' => 'form-control btn btn-primary']) }}
 								{{ Form::close()}}
@@ -30,38 +34,71 @@
 						@endif
 					</ul>
 				</div>
-				<?php $first = false; ?>
 			@endif
+			<?php $first = false; ?>
 		@endforeach
 	</div>
-	<div class="col-md-5 panel panel-default">
+	<div class="col-md-4 panel panel-default">
 		<h1> Activities</h1>
-			<div class="panel panel-info">
-				@foreach($days as $day)
-					@if(count(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get()))
-						<div class="panel-heading">
-							<h3 class="panel-title">{{ $day->toFormattedDateString() . '<small> ' . $day->format('D') . '</small>' }} </h3>
+		<div class="panel panel-info">
+			@foreach($days as $day)
+				@if(count(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get()))
+					<div class="panel-heading">
+						<h3 class="panel-title">{{ $day->toFormattedDateString() . '<small> ' . $day->format('D') . '</small>' }} </h3>
+					</div>
+					@foreach(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get() as $schedule)
+						<div class="panel-body activity">
+							@if($schedule->subject->activities()->whereHappenedAt($day)->first())
+								{{ Form::label('activity', $schedule->subject->subject)}}
+								<div class="panel panel-info click-activity" ng-click="getActivity('{{$day}}', '{{$schedule->subject->id}}')">
+									<div class="panel-body">
+										{{$schedule->subject->activities()->whereHappenedAt($day)->first()->activity}}
+									</div>
+								</div>
+								{{ Form::textarea('activity', $schedule->subject->activities()->whereHappenedAt($day)->first()->activity, ['class' => 'form-control activity-text', 'rows' => 5, 'placeholder' => 'Loading...', 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
+							@else
+								{{ Form::label('activity', $schedule->subject->subject)}}
+								<div class="panel panel-info click-activity">
+									<div class="panel-body">
+										&nbsp;
+									</div>
+								</div>
+								{{ Form::textarea('activity', null, ['class' => 'form-control activity-text', 'rows' => 5, 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
+							@endif
 						</div>
-						@foreach(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get() as $schedule)
-							<div class="panel-body">
-								{{ Form::open(['url' => URL::route('activities.update', ['day' => $day]), 'class' => 'form']) }}
-									{{ Form::hidden('subject_id', $schedule->subject->id)}}
-									{{ Form::hidden('happened_at', $day)}}
-									{{ Form::label('activity', $schedule->subject->subject)}}
-									@if($schedule->subject->activities()->whereHappenedAt($day)->first())
-										{{ Form::textarea('activity', $schedule->subject->activities()->whereHappenedAt($day)->first()->activity, ['class' => 'form-control activity-text', 'rows' => 5, 'placeholder' => $schedule->subject->activities()->whereHappenedAt($day)->first()->activity]) }}
-									@else
-										{{ Form::textarea('activity', null, ['class' => 'form-control activity-text', 'rows' => 5]) }}
-									@endif
-								{{ Form::close()}}
-							</div>
-						@endforeach
-					@endif
-				@endforeach
+					@endforeach
+				@endif
+			@endforeach
+		</div>
+	</div>
+	<div class="col-md-4 panel panel-default">
+		<h1> Deadlines </h1>
+		<div class="panel panel-info" ng-repeat="deadline in deadlines">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					@{{deadline.subject.subject}}
+					<small title="@{{ deadline.deadline.original }}">@{{ deadline.deadline.diffForHumans }}	</small>
+					<div class="pull-right">
+						
+					</div>
+				</h3>
+			</div>
+			<div class="panel-body">	
+				@{{ deadline.caption }}
 			</div>
 		</div>
-	<div class="col-md-3 panel panel-default">
-		<h1> Deadlines </h1>
+		<div class="panel panel-info">
+			<div class="panel-body">
+				<form ng-submit="addDeadline()" class="form">
+					<div class="form-group">
+						{{ Form::select('subject', $subjectsList, null, ['class' => 'form-control', 'ng-model' => 'newDeadline.subject_id']) }}
+						{{ Form::input('date', 'deadline', null, ['class' => 'form-control', 'ng-model' => 'newDeadline.deadline'])}}
+						{{ Form::textarea('caption', null, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Caption', 'ng-model' => 'newDeadline.caption'])}}
+					</div>
+					{{ Form::submit('New Deadline', ['class' => 'btn btn-primary form-control'])}}
+				{{ Form::close() }}
+			</div>
+		</div>
 	</div>
 	@if($debug)
 		<div class="col-md-8 panel panel-default">
@@ -91,7 +128,7 @@
 
 @section('scripts')
 	{{ HTML::script('/js/jquery.min.js')}}
-	{{ HTML::script('/js/angular.min.js')}}
+	{{ HTML::script('/js/angular.js')}}
 	{{ HTML::script('/js/main_jquery.js')}}
 	{{ HTML::script('/js/journal.js')}}
 @stop

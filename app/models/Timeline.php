@@ -18,4 +18,9 @@ class Timeline extends Eloquent
 	{
 		return static::whereFlag(1)->get()->first();
 	}
+
+	public function deadlines()
+	{
+		return $this->hasManyThrough('Deadline', 'Subject')->orderBy('deadline', 'desc');
+	}
 }

@@ -21,17 +21,18 @@ Route::get('/', function()
 
 	$timelines = Timeline::all()->lists('timeline', 'id');
 	$subjects = Timeline::current()->subjects;
+	$subjectsList = Timeline::current()->subjects->lists('subject', 'id');
 	$week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	$daysOfWeek = [];
 	for ($i=date("N"); $i < 7; $i++) { 
-		array_push($daysOfWeek, $week[$i]);
+		$daysOfWeek[$i] = $week[$i];
 	}	
 	for ($i=0; $i < date("N"); $i++) {
-		array_push($daysOfWeek, $week[$i]);
+		$daysOfWeek[$i] = $week[$i];
 	}
 	$debug = false;
 
-	return View::make('index', compact('timelines', 'subjects', 'days', 'daysOfWeek', 'debug'));
+	return View::make('index', compact('timelines', 'subjects', 'subjectsList', 'days', 'daysOfWeek', 'debug'));
 });
 
 Route::get('/debug', function()
@@ -43,17 +44,18 @@ Route::get('/debug', function()
 
 	$timelines = Timeline::all()->lists('timeline', 'id');
 	$subjects = Timeline::current()->subjects;
+	$subjectsList = Timeline::current()->subjects->lists('subject', 'id');
 	$week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	$daysOfWeek = [];
 	for ($i=date("N"); $i < 7; $i++) { 
-		array_push($daysOfWeek, $week[$i]);
+		$daysOfWeek[$i] = $week[$i];
 	}
 	for ($i=0; $i < date("N"); $i++) {
-		array_push($daysOfWeek, $week[$i]);
+		$daysOfWeek[$i] = $week[$i];
 	}
 	$debug = true;
 
-	return View::make('index', compact('timelines', 'subjects', 'days', 'daysOfWeek', 'debug'));
+	return View::make('index', compact('timelines', 'subjects', 'subjectsList', 'days', 'daysOfWeek', 'debug'));
 });
 
 Route::get('timelines', function()
@@ -68,7 +70,7 @@ Route::get('timelines/current/id', function()
 
 Route::get('subjects', function()
 {
-	return Subject::all();
+	return Timeline::current()->subjects;
 });
 
 Route::post('subjects', function()
@@ -76,10 +78,45 @@ Route::post('subjects', function()
 	return Subject::create(Input::all());
 });
 
+Route::get('subjects/{id}', function($id)
+{
+	return Subject::find($id)->subject;
+});
+
 Route::post('subjects/{id}/edit', function($id)
 {
 	return Subject::find($id)->update(Input::all());
 });
 
+Route::get('subjects/{id}/activities/{day}', function($id, $day)
+{
+	$activity = Activity::whereHappenedAt($day)->whereSubjectId($id)->first();
+
+	return $activity ? $activity->activity : '';
+});
+Route::post('subjects/{id}/activities/{day}', function($id, $day)
+{
+	if($activity = Activity::whereHappenedAt($day)->whereSubjectId($id)->first())
+		$activity->update(Input::all());
+	else
+		$activity = Activity::create(Input::all());
+
+	return $activity;
+});
+
 Route::post('schedules/', ['as' => 'schedules.store', 'uses' => 'SchedulesController@store']);
-Route::post('activities/{day}', ['as' => 'activities.update', 'uses' => 'ActivitiesController@update']);
+
+Route::get('diffForHumans/{date}', function($date)
+{
+	return (new Carbon($date))->diffForHumans();
+});
+
+Route::get('deadlines', function()
+{
+	return Timeline::current()->deadlines()->with('Subject')->get();
+});
+
+Route::post('deadlines', function()
+{
+	return Deadline::create(Input::all());
+});

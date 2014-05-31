@@ -1,4 +1,7 @@
 function JournalController ($scope, $http) {
+	$scope.subjects = [];
+	$scope.newDeadline = {};
+	$scope.deadlines = [];
 
 	function refresh()
 	{
@@ -8,6 +11,10 @@ function JournalController ($scope, $http) {
 
 		$http.get('timelines/current/id').success(function(timeline_id) {
 			$scope.timeline_id = timeline_id;
+		});
+
+		$http.get('deadlines').success(function(deadlines) {
+			$scope.deadlines = deadlines;
 		});
 	}
 
@@ -33,10 +40,59 @@ function JournalController ($scope, $http) {
 			subject: $scope.editSubjectText
 		});
 
-		alert('subjects/'+id+'/edit');
-
 		$http.post('subjects/'+id+'/edit', subject);
 
 		//refresh();
 	}
+
+	$scope.editActivity = function(day, id) {
+
+		var activity = ({
+			subject_id : id,
+			happened_at : day,
+			activity : $scope.edit
+		});
+
+		$scope.edit = '';
+		$http.post('subjects/'+id+'/activities/'+day, activity);
+	}
+
+	$scope.getActivity = function(day, id) {
+		$http.get('subjects/'+id+'/activities/'+day).success(function(activity){
+			if(activity) $scope.edit = activity;
+			else $scope.edit = ' ';
+		});
+	};
+
+	$scope.addDeadline = function() {
+		deadline = 
+		{
+			subject_id : $scope.newDeadline.subject_id,
+			subject: {subject:''},
+			caption : $scope.newDeadline.caption,
+			deadline : {original: $scope.newDeadline.deadline, diffForHumans: ''}
+		};
+
+		$http.post('deadlines', deadline);
+
+		$http.get('diffForHumans/'+$scope.newDeadline.deadline).success(function(diffForHumans) {
+			deadline.deadline.diffForHumans = diffForHumans;
+		});
+
+		for (var i = 0; i < $scope.subjects.length; i++) 
+		{
+			if($scope.subjects[i].id == deadline.subject_id)
+			{
+				deadline.subject.subject = $scope.subjects[i].subject;
+				break;
+			}
+		}
+
+		$scope.deadlines.push(deadline);
+
+		$scope.newDeadline.subject = 0;
+		$scope.newDeadline.caption = '';
+		$scope.newDeadline.deadline = '';
+		
+	};
 }

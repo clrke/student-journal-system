@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateActivitiesTable extends Migration {
+class CreateDeadlinesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,12 @@ class CreateActivitiesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('activities', function(Blueprint $table)
+		Schema::create('deadlines', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->integer('subject_id');
-			$table->date('happened_at');
-			$table->text('activity');
+			$table->date('deadline');
+			$table->text('caption');
 			$table->timestamps();
 		});
 	}
@@ -29,7 +29,7 @@ class CreateActivitiesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('activities');
+		Schema::drop('deadlines');
 	}
 
 }

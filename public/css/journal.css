@@ -1,3 +1,11 @@
 .edit-text {
 	display:none;
 }
+
+.activity-text {
+	display: none;
+}
+
+.click-activity {
+	cursor: pointer;
+}

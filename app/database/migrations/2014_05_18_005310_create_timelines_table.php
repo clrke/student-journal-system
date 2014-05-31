@@ -17,8 +17,8 @@ class CreateTimelinesTable extends Migration {
 			$table->increments('id');
 			$table->string('timeline');
 			$table->tinyInteger('flag');
-			$table->dateTime('start');
-			$table->dateTime('end');
+			$table->date('start');
+			$table->date('end');
 			$table->timestamps();
 		});
 	}
