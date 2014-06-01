@@ -73,9 +73,10 @@
 	</div>
 	<div class="col-md-4 panel panel-default">
 		<h1> Deadlines </h1>
-		<div class="panel panel-info" ng-repeat="deadline in deadlines">
+		<div class="panel panel-info" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
 			<div class="panel-heading">
 				<h3 class="panel-title">
+					@{{deadline.id}}
 					@{{deadline.subject.subject}}
 					<small title="@{{ deadline.deadline.original }}">@{{ deadline.deadline.diffForHumans }}	</small>
 					<div class="pull-right">

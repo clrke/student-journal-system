@@ -70,10 +70,15 @@ function JournalController ($scope, $http) {
 			subject_id : $scope.newDeadline.subject_id,
 			subject: {subject:''},
 			caption : $scope.newDeadline.caption,
-			deadline : {original: $scope.newDeadline.deadline, diffForHumans: ''}
+			deadline : $scope.newDeadline.deadline
 		};
 
-		$http.post('deadlines', deadline);
+		$http.post('deadlines', deadline).success(function(data) {
+			deadline.id = data.id;
+			deadline.subject_id = data.subject_id;
+			deadline.caption = data.caption;
+			deadline.deadline = data.deadline;
+		});
 
 		$http.get('diffForHumans/'+$scope.newDeadline.deadline).success(function(diffForHumans) {
 			deadline.deadline.diffForHumans = diffForHumans;
