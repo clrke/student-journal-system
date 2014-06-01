@@ -1,6 +1,6 @@
 function JournalController ($scope, $http) {
 	$scope.subjects = [];
-	$scope.newDeadline = {};
+	$scope.newDeadline = {subject_id: 1};
 	$scope.deadlines = [];
 
 	function refresh()

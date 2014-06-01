@@ -92,8 +92,8 @@
 				<form ng-submit="addDeadline()" class="form">
 					<div class="form-group">
 						{{ Form::select('subject', $subjectsList, null, ['class' => 'form-control', 'ng-model' => 'newDeadline.subject_id']) }}
-						{{ Form::input('date', 'deadline', null, ['class' => 'form-control', 'ng-model' => 'newDeadline.deadline'])}}
-						{{ Form::textarea('caption', null, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Caption', 'ng-model' => 'newDeadline.caption'])}}
+						{{ Form::input('date', 'deadline', null, ['class' => 'form-control', 'ng-model' => 'newDeadline.deadline', 'required'])}}
+						{{ Form::textarea('caption', null, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Caption', 'ng-model' => 'newDeadline.caption', 'required'])}}
 					</div>
 					{{ Form::submit('New Deadline', ['class' => 'btn btn-primary form-control'])}}
 				{{ Form::close() }}
