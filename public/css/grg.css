@@ -31,3 +31,5 @@
 .blue { color:blue; }
 .center-text { text-align: center;}
 .hide {display: none; }
+.x { cursor: pointer;}
+.x:hover {text-decoration: none};

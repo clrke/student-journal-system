@@ -75,13 +75,13 @@
 		<h1> Deadlines </h1>
 		<div class="panel panel-info" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
 			<div class="panel-heading">
-				<h3 class="panel-title">
-					@{{deadline.subject.subject}}
-					<small title="@{{ deadline.deadline.original }}">@{{ deadline.deadline.diffForHumans }}	</small>
+				<h1 class="panel-title">
 					<div class="pull-right">
-						
+						<a ng-click="deleteDeadline(deadline.id)" class='x'> x </a>
 					</div>
-				</h3>
+					@{{deadline.subject.subject}}<br/>
+					<small>@{{ deadline.deadline.original }} (@{{ deadline.deadline.diffForHumans }})</small>
+				</h1>
 			</div>
 			<div class="panel-body">	
 				@{{ deadline.caption }}
@@ -127,8 +127,10 @@
 @stop
 
 @section('scripts')
+	{{ HTML::style('/css/grg.css')}}
 	{{ HTML::script('/js/jquery.min.js')}}
 	{{ HTML::script('/js/angular.js')}}
+	{{ HTML::script('/js/underscore.min.js')}}
 	{{ HTML::script('/js/main_jquery.js')}}
 	{{ HTML::script('/js/journal.js')}}
 @stop

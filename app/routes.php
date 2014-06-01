@@ -120,3 +120,8 @@ Route::post('deadlines', function()
 {
 	return Deadline::create(Input::all());
 });
+
+Route::delete('deadlines/{id}', function($id) 
+{
+	return Deadline::destroy($id);
+});

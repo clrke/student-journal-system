@@ -100,4 +100,14 @@ function JournalController ($scope, $http) {
 		$scope.newDeadline.deadline = '';
 		
 	};
+
+	$scope.deleteDeadline = function(id) {
+		if(confirm("Are you sure you want to delete?"))
+		{
+			$http.delete('deadlines/'+id);
+			$scope.deadlines = _.filter($scope.deadlines, function(deadline) {
+				return deadline.id != id;
+			});
+		}
+	}
 }
