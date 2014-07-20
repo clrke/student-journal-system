@@ -110,4 +110,12 @@ function JournalController ($scope, $http) {
 			});
 		}
 	}
+
+	$scope.addChecklist = function(deadline) {
+		deadline.checklists.push({});
+	}
+
+	$scope.deleteChecklist = function(checklist) {
+		
+	}
 }

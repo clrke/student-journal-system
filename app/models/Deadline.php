@@ -9,6 +9,11 @@ class Deadline extends Eloquent
 		return $this->belongsTo('Subject');
 	}
 
+	public function checklists()
+	{
+		return $this->hasMany('Checklist');
+	}
+
 	public function getDeadlineAttribute($value)
 	{
 		return ['original' => (new Carbon\Carbon($value))->toFormattedDateString(), 'diffForHumans' => (new Carbon\Carbon($value))->diffForHumans()];

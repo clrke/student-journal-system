@@ -38,7 +38,7 @@ Route::get('/', function()
 Route::get('/debug', function()
 {
 	$days = [];
-	//for($day = Carbon::now(); $day < Timeline::current()->start; $day->addDay())
+
 	for($day = Carbon::now()->hour(0)->minute(0)->second(0); $day > Carbon::now()->subWeeks(2); $day->subDay())
 		array_push($days, clone($day));
 
@@ -113,7 +113,7 @@ Route::get('diffForHumans/{date}', function($date)
 
 Route::get('deadlines', function()
 {
-	return Timeline::current()->deadlines()->with('Subject')->get();
+	return Timeline::current()->deadlines()->with('subject')->with('checklists')->get();
 });
 
 Route::post('deadlines', function()
