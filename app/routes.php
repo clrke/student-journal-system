@@ -172,4 +172,10 @@ Route::get('/randomquestion/{days}', function($days)
 		}
 
 	return $randomquestion;
+
+});
+
+Route::get('/quotes', function()
+{
+	return File::get('public/quotes.json');
 });
