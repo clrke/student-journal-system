@@ -2,6 +2,63 @@ function JournalController ($scope, $http) {
 	$scope.subjects = [];
 	$scope.newDeadline = {subject_id: 1};
 	$scope.deadlines = [];
+	$scope.days = 2;
+	$scope.type1 = true;
+	$scope.type2 = false;
+
+	function shuffleArray(array) {
+	    for (var i = array.length - 1; i > 0; i--) {
+	        var j = Math.floor(Math.random() * (i + 1));
+	        var temp = array[i];
+	        array[i] = array[j];
+	        array[j] = temp;
+	    }
+	    return array;
+	}
+
+	$scope.popQuizSubmit = function()
+	{
+		$scope.correct = true;
+		if($scope.type1)
+		{
+			for (var i = $scope.question.allAnswers.length - 1; i >= 0; i--) {
+				answer = $scope.question.allAnswers[i];
+				if(answer.correct && answer.chosen)
+					answer.judge = "OK";
+				else if( ! answer.correct && ! answer.chosen)
+					answer.judge = "OK";
+				else 
+				{
+					answer.judge = "X";
+					$scope.correct = false;
+				}
+			};
+		}
+		if($scope.type2)
+		{
+			for (var i = $scope.question.allAnswers.length - 1; i >= 0; i--) {
+				answer = $scope.question.allAnswers[i];
+				answer.try = answer.answer;
+			}
+		}
+	}
+
+	$scope.refreshQuestion = function() 
+	{
+		$scope.correct = false;
+
+		$scope.question = null;
+		$http.get('/randomquestion/' + $scope.days).success(function(question) {
+			question.allAnswers = question.answers;
+			question.allAnswers = question.allAnswers.concat(question.sabotages);
+
+			question.allAnswers = shuffleArray(question.allAnswers);
+
+			$scope.question = question;
+		});
+	}
+
+	$scope.refreshQuestion();
 
 	function refresh()
 	{
@@ -116,6 +173,6 @@ function JournalController ($scope, $http) {
 	}
 
 	$scope.deleteChecklist = function(checklist) {
-		
+
 	}
 }

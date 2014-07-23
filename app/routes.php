@@ -125,3 +125,47 @@ Route::delete('deadlines/{id}', function($id)
 {
 	return Deadline::destroy($id);
 });
+
+Route::get('/questions/add', function()
+{
+	return View::make('question');
+});
+
+Route::get('/questions', function()
+{
+	return Question::orderBy('created_at', 'desc')->with('answers')->with('sabotages')->get();
+});
+
+Route::post('/questions', function()
+{	
+	$question = Question::create(Input::all());
+
+	foreach(Input::get('answers') as $answer)
+		Answer::create(['question_id' => $question->id, 'answer' => $answer['answer'], 'correct' => 1]);
+	
+	foreach(Input::get('sabotages') as $sabotage)
+		Answer::create(['question_id' => $question->id, 'answer' => $sabotage['answer'], 'correct' => 0]);	
+
+	return $question;
+});
+
+Route::get('/randomquestion/{days}', function($days)
+{
+	$questions = Question::where('created_at', '>', Carbon::now()->subDays($days))->with('answers')->with('sabotages')->get();
+	$array = iterator_to_array($questions);
+
+	for($i = 0; $i < 10; $i++)
+		shuffle($array);
+
+	$randomquestion = $array[0];
+	$max = count($randomquestion->answers) == 1 ? 4 : count($randomquestion->answers) * 2;
+	
+	for($i = count($randomquestion->answers) + count($randomquestion->sabotages); $i < $max; $i++)
+		if(isset($array[$i+1]))
+		{
+			$array[$i+1]->answers[0]->correct = 0;
+			$randomquestion->sabotages->push($array[$i+1]->answers[0]);
+		}
+
+	return $randomquestion;
+});

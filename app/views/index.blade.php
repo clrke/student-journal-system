@@ -71,6 +71,49 @@
 			@endforeach
 		</div>
 	</div>
+	<div class="col-md-4 panel panel-default" ng-show="question">
+		<h1> Pop quiz </h1>
+		<label> Type: </label> 
+		<div class="form-group">
+			{{ Form::checkbox('name', 'value', 1, ['ng-model' => 'type1'])}} Multiple Choice
+			{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
+		</div>
+		<label> Days from today: </label> 
+		<div class="form-group input-group">
+			<input type="text" class="form-control" ng-model="days">
+	 		<span ng-click="refreshQuestion()" class="btn input-group-addon"> Refresh </span>
+		</div>
+		<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
+			<div class="panel-body">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							@{{ question.question }}
+						</h3>
+					</div>
+				</div>
+				<div class="panel-body" ng-show="type1">
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="answer in question.allAnswers">
+							{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen'])}}
+							@{{ answer.answer }}
+							<b> @{{ answer.judge }} </b>
+						</li>
+					</ul> 
+				</div>
+				<div class="panel-body" ng-show="type2">
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="answer in question.answers">
+							{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try']) }}
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<button class="btn btn-primary" ng-hide="correct"> Submit </button>
+			<button class="btn btn-default" ng-click="refreshQuestion()" ng-show="correct"> Refresh </button>
+		</form>
+	</div>
 	<div class="col-md-4 panel panel-default">
 		<h1> Deadlines </h1>
 		<div class="panel panel-info" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
