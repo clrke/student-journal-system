@@ -5,8 +5,8 @@
 	<br/>
 	<div class="col-md-12 panel panel-default">
 		<h3> 
+			<button class="btn btn-default pull-right" ng-click="shuffleArray(quoteList);">Refresh</button> 
 			@{{ quoteList[0].quote }}
-			<button class="btn btn-default" ng-click="shuffleArray(quoteList);">Refresh</button> 
 		</h3>
 		<h4> - @{{ quoteList[1].source }} </h4>
 	</div>
