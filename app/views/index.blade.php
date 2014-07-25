@@ -121,7 +121,7 @@
 			</div>
 
 			<button class="btn btn-primary" ng-hide="correct"> Submit </button>
-			<button class="btn btn-default" ng-click="refreshQuestion()" ng-show="correct"> Refresh </button>
+			<button class="btn btn-default" ng-show="correct"> Refresh </button>
 		</form>
 	</div>
 	<div class="col-md-4 panel panel-default">

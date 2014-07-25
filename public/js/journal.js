@@ -13,6 +13,11 @@ function JournalController ($scope, $http) {
 	$http.get('/quotes').success(function(quotes) {
 		$scope.quoteList = $scope.shuffleArray(quotes);
 	});
+
+	$http.get('/questions').success(function(questions) {
+		$scope.questions = questions;
+		$scope.refreshQuestion();
+	});
 	
 	$scope.subjects = [];
 	$scope.newDeadline = {subject_id: 1};
@@ -60,20 +65,45 @@ function JournalController ($scope, $http) {
 
 	$scope.refreshQuestion = function() 
 	{
-		$scope.question = null;
-		$http.get('/randomquestion/' + $scope.days).success(function(question) {
-			question.allAnswers = question.answers;
-			question.allAnswers = question.allAnswers.concat(question.sabotages);
+		limit = new Date();
 
-			question.allAnswers = $scope.shuffleArray(question.allAnswers);
+		limit.setDate(limit.getDate() - $scope.days);
 
-			$scope.question = question;
+		var questions = _.filter($scope.questions, function(question) {
+			return new Date(question.created_at) > limit;
 		});
 
+		if(questions.length == 0)
+			questions = $scope.questions;
+		
+		questions = $scope.shuffleArray(questions);
+		question = questions[0];
+	
+		var max = question.answers.length == 1 ? 4 : question.answers.length * 2;
+
+		for (var i = question.answers.length + question.sabotages.length; i < max; i++) 
+		{
+			if(questions[i+1])
+			{
+				var sabotage = $.extend({}, questions[i+1].answers[0]);
+				sabotage.correct = 0;
+				question.sabotages.push(sabotage);
+			}
+		}
+		question.allAnswers = question.answers.concat(question.sabotages);
+		$scope.shuffleArray(question.allAnswers);
+
+		for (var i = 0; i < question.allAnswers.length; i++) {
+			question.allAnswers[i].judge = null;
+			question.allAnswers[i].try = null;
+			question.allAnswers[i].status = null;
+			question.allAnswers[i].chosen = null;
+		};
+
+		$scope.question = question;
+		
 		$scope.correct = false;
 	}
-
-	$scope.refreshQuestion();
 
 	function refresh()
 	{

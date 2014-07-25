@@ -149,32 +149,6 @@ Route::post('/questions', function()
 	return $question;
 });
 
-Route::get('/randomquestion/{days}', function($days)
-{
-	$questions = Question::where('created_at', '>', Carbon::now()->subDays($days))->with('answers')->with('sabotages')->get();
-	if(count($questions) == 0)
-		$questions = Question::with('answers')->with('sabotages')->get();
-
-	$array = iterator_to_array($questions);
-
-	for($i = 0; $i < 10; $i++)
-		shuffle($array);
-
-	$randomquestion = $array[0];
-
-	$max = count($randomquestion->answers) == 1 ? 4 : count($randomquestion->answers) * 2;
-	
-	for($i = count($randomquestion->answers) + count($randomquestion->sabotages); $i < $max; $i++)
-		if(isset($array[$i+1]))
-		{
-			$array[$i+1]->answers[0]->correct = 0;
-			$randomquestion->sabotages->push($array[$i+1]->answers[0]);
-		}
-
-	return $randomquestion;
-
-});
-
 Route::get('/quotes', function()
 {
 	return File::get('public/quotes.json');
