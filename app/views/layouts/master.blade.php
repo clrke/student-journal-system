@@ -1,4 +1,4 @@
-<html ng-app>
+<html ng-app="JournalApp">
 	<head>
 		<title> Student Journal System </title>
   		{{ HTML::style('/css/bootstrap.min.css') }}

@@ -112,7 +112,8 @@
 						<ul class="list-group">
 							<li class="list-group-item" ng-repeat="answer in question.answers">
 								<div ng-class="answer.status">
-									{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try']) }}
+									{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;']) }}
+									{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first']) }}
 								</div>
 							</li>
 						</ul>

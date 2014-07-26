@@ -1,4 +1,6 @@
-function JournalController ($scope, $http) {
+var JournalApp = angular.module('JournalApp', []);
+
+JournalApp.controller('JournalController', ['$scope', '$http', function($scope, $http) {
 	
 	$scope.shuffleArray = function(array) {
 	    for (var i = array.length - 1; i > 0; i--) {
@@ -220,4 +222,20 @@ function JournalController ($scope, $http) {
 	$scope.deleteChecklist = function(checklist) {
 
 	}
-}
+}]);
+
+JournalApp.directive('focusAsap', function($timeout) {
+  return {
+    link: function(scope, element, attrs) {
+      scope.$watch(attrs.focusAsap, function(value) {
+        if(value === true) { 
+          console.log('value=',value);
+          //$timeout(function() {
+            element[0].focus();
+            scope[attrs.focusMe] = false;
+          //});
+        }
+      });
+    }
+  };
+});
