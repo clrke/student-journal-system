@@ -59,7 +59,7 @@
 								{{ Form::label('activity', $schedule->subject->subject)}}
 								<div class="panel panel-info click-activity" ng-click="getActivity('{{$day}}', '{{$schedule->subject->id}}')">
 									<div class="panel-body">
-										{{$schedule->subject->activities()->whereHappenedAt($day)->first()->activity}}
+										{{nl2br($schedule->subject->activities()->whereHappenedAt($day)->first()->activity)}}
 									</div>
 								</div>
 								{{ Form::textarea('activity', $schedule->subject->activities()->whereHappenedAt($day)->first()->activity, ['class' => 'form-control activity-text', 'rows' => 5, 'placeholder' => 'Loading...', 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
