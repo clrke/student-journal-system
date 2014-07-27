@@ -23,8 +23,10 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	
 	$scope.subjects = [];
 	$scope.newDeadline = {subject_id: 1};
+	$scope.quizSubjects = ["1"];
 	$scope.deadlines = [];
 	$scope.days = 1;
+	$scope.questionsQueue = [];
 	$scope.type1 = false;
 	$scope.type2 = true;
 
@@ -67,27 +69,39 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	$scope.refreshQuestion = function() 
 	{
-		limit = new Date();
+		if($scope.questionsQueue.length > 0)
+			question = $scope.questionsQueue.shift();
+		else
+		{
+			$scope.questionsQueue = $scope.questions.slice(0);
 
-		limit.setDate(limit.getDate() - $scope.days);
+			limit = new Date();
 
-		var questions = _.filter($scope.questions, function(question) {
-			return new Date(question.created_at) > limit;
-		});
+			limit.setDate(limit.getDate() - $scope.days);
 
-		if(questions.length == 0)
-			questions = $scope.questions;
-		
-		questions = $scope.shuffleArray(questions);
-		question = questions[0];
+			$scope.questionsQueue = _.filter($scope.questionsQueue, function(question) {
+				return new Date(question.created_at) > limit;
+			});
+
+			if($scope.questionsQueue.length == 0)
+				$scope.questionsQueue = $scope.questions.slice(0);
+			
+			$scope.questionsQueue = _.filter($scope.questionsQueue, function(question) {
+				return _.contains($scope.quizSubjects, question.subject_id.toString());
+			});
+
+			$scope.questionsQueue = $scope.shuffleArray($scope.questionsQueue);
+
+			question = $scope.questionsQueue.shift();
+		}
 	
 		var max = question.answers.length == 1 ? 4 : question.answers.length * 2;
 
 		for (var i = question.answers.length + question.sabotages.length; i < max; i++) 
 		{
-			if(questions[i+1])
+			if($scope.questionsQueue[i+1])
 			{
-				var sabotage = $.extend({}, questions[i+1].answers[0]);
+				var sabotage = $.extend({}, $scope.questionsQueue[i+1].answers[0]);
 				sabotage.correct = 0;
 				question.sabotages.push(sabotage);
 			}
@@ -229,7 +243,6 @@ JournalApp.directive('focusAsap', function($timeout) {
     link: function(scope, element, attrs) {
       scope.$watch(attrs.focusAsap, function(value) {
         if(value === true) { 
-          console.log('value=',value);
           //$timeout(function() {
             element[0].focus();
             scope[attrs.focusMe] = false;

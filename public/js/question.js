@@ -1,7 +1,10 @@
-function JournalController ($scope, $http) {
-	$scope.questions = [];
+var JournalApp = angular.module('JournalApp', []);
 
+JournalApp.controller('JournalController', ['$scope', '$http', function($scope, $http) {
+
+	$scope.questions = [];
 	$scope.newQuestion = {};
+	$scope.newQuestion.subject_id = 1;
 	$scope.newQuestion.question = "";
 	$scope.newQuestion.answers = [{}];
 	$scope.newQuestion.sabotages = [{}];
@@ -42,9 +45,13 @@ function JournalController ($scope, $http) {
 			$http.post('/questions', $scope.newQuestion);
 
 			$scope.questions.unshift($scope.newQuestion);
+
+			var subject_id = $scope.newQuestion.subject_id;
+			
 			$scope.newQuestion = {};
+			$scope.newQuestion.subject_id = subject_id;
 			$scope.newQuestion.answers = [{}];
 			$scope.newQuestion.sabotages = [{}];
 		}
 	}
-}
+}]);

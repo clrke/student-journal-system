@@ -128,7 +128,8 @@ Route::delete('deadlines/{id}', function($id)
 
 Route::get('/questions/add', function()
 {
-	return View::make('question');
+	$subjects = Timeline::current()->subjects()->lists('subject', 'id');
+	return View::make('question', compact('subjects'));
 });
 
 Route::get('/questions', function()

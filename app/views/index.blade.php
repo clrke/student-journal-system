@@ -87,6 +87,12 @@
 		</div>
 		<div class="form-inline">
 			<div class="form-group">
+				<label> Subject: </label>
+				{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'multiple', 'ng-model' => 'quizSubjects'])}}
+			</div>
+		</div>
+		<div class="form-inline">
+			<div class="form-group">
 				<label> Days from today: </label> 
 				<input type="text" class="form-control" ng-model="days">
 			</div>
@@ -123,6 +129,7 @@
 
 			<button class="btn btn-primary" ng-hide="correct"> Submit </button>
 			<button class="btn btn-default" ng-show="correct"> Refresh </button>
+			<span class="btn btn-default" ng-hide="correct" ng-click="questionsQueue = []; refreshQuestion()"> Refresh </span>
 		</form>
 	</div>
 	<div class="col-md-4 panel panel-default">

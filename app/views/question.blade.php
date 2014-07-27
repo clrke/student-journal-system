@@ -13,6 +13,10 @@
 			<div class="panel-body">
 				<form ng-submit="addQuestion()">
 					<div class="form-group">
+						{{ Form::label('Subject *')}}
+						{{ Form::select('subject_id', $subjects, '', ['class' => 'form-control', 'ng-model' => 'newQuestion.subject_id'])}}
+					</div>
+					<div class="form-group">
 						{{ Form::label('question *')}}
 						{{ Form::text('question', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.question']) }}
 					</div>
@@ -66,8 +70,8 @@
 
 @section('scripts')
 	{{ HTML::style('/css/grg.css')}}
-	{{ HTML::script('/js/jquery.min.js')}}
 	{{ HTML::script('/js/angular.js')}}
+	{{ HTML::script('/js/jquery.min.js')}}
 	{{ HTML::script('/js/underscore.min.js')}}
 	{{ HTML::script('/js/question.js')}}
 @stop
