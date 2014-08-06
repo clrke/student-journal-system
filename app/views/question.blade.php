@@ -60,10 +60,11 @@
 			<div class="panel-body">
 				<ul class="list-group">
 					<li class="list-group-item" ng-repeat="answer in question.answers">
-						@{{ answer.answer }}
+						- @{{ answer.answer }}
 					</li>
 				</ul>
 			</div>
+			<br/>
 		</div>
 	</div>
 @stop
