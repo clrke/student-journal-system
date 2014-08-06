@@ -90,6 +90,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				return _.contains($scope.quizSubjects, question.subject_id.toString());
 			});
 
+			if($scope.questionsQueue.length == 0)
+				$scope.questionsQueue = $scope.questions.slice(0);
+			
 			$scope.questionsQueue = $scope.shuffleArray($scope.questionsQueue);
 
 			question = $scope.questionsQueue.shift();
