@@ -134,7 +134,7 @@ Route::get('/questions/add', function()
 
 Route::get('/questions', function()
 {
-	return Question::orderBy('created_at', 'desc')->with('answers')->with('sabotages')->get();
+	return Question::with('answers')->with('sabotages')->get();
 });
 
 Route::post('/questions', function()
