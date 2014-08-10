@@ -51,7 +51,7 @@
 			</div>
 		</div>
 
-		<div class="panel panel-info" ng-repeat="question in questions">
+		<div class="panel panel-info" ng-repeat="question in questions | filter: {subject_id: newQuestion.subject_id}">
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					@{{ question.question }}
