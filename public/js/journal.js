@@ -29,6 +29,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.questionsQueue = [];
 	$scope.type1 = false;
 	$scope.type2 = true;
+	$scope.combo = 0;
 
 	$scope.popQuizSubmit = function()
 	{
@@ -36,6 +37,8 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			return;
 
 		$scope.correct = true;
+		correct = true;
+
 		if($scope.type1)
 		{
 			for (var i = $scope.question.allAnswers.length - 1; i >= 0; i--) {
@@ -48,23 +51,31 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				{
 					answer.judge = "X";
 					$scope.correct = false;
+					correct = false;
 				}
 			};
 		}
 
 		if($scope.type2)
 		{
-			for (var i = $scope.question.allAnswers.length - 1; i >= 0; i--) {
-				answer = $scope.question.allAnswers[i];
+			for (var i = $scope.question.answers.length - 1; i >= 0; i--) {
+				answer = $scope.question.answers[i];
 
 				if( ! answer.try || answer.try.toLowerCase() != answer.answer.toLowerCase())
+				{
 					answer.status = "has-error";
+					correct = false;
+				}
 				else answer.status = "has-success";
 
 				answer.try = answer.answer;
 			}
 		}
 
+		if(correct)
+			$scope.combo++;
+		else
+			$scope.combo = 0;
 	}
 
 	$scope.refreshQuestion = function() 
