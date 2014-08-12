@@ -142,12 +142,14 @@ Route::post('/questions', function()
 	$question = Question::create(Input::all());
 
 	foreach(Input::get('answers') as $answer)
-		Answer::create(['question_id' => $question->id, 'answer' => $answer['answer'], 'correct' => 1]);
+		if(isset($answer['answer']))
+			Answer::create(['question_id' => $question->id, 'answer' => $answer['answer'], 'correct' => 1]);
 	
 	foreach(Input::get('sabotages') as $sabotage)
-		Answer::create(['question_id' => $question->id, 'answer' => $sabotage['answer'], 'correct' => 0]);	
+		if(isset($sabotage['answer']))
+			Answer::create(['question_id' => $question->id, 'answer' => $sabotage['answer'], 'correct' => 0]);	
 
-	return $question;
+	return Question::whereId($question->id)->with('answers')->first();
 });
 
 Route::get('/quotes', function()
