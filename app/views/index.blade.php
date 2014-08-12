@@ -130,7 +130,10 @@
 			<button class="btn btn-primary" ng-hide="correct"> Submit </button>
 			<button class="btn btn-default" ng-show="correct"> Refresh </button>
 			<span class="btn btn-default" ng-hide="correct" ng-click="questionsQueue = []; refreshQuestion()"> Refresh </span>
-			<b class="pull-right"> Combo: @{{ combo }} </b>
+			<b class="pull-right"> 
+				Combo: @{{ combo }} <br/>
+				High score: @{{ highscore }}
+			</b>
 		</form>
 	</div>
 	<div class="col-md-4 panel panel-default">

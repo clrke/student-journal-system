@@ -30,6 +30,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.type1 = false;
 	$scope.type2 = true;
 	$scope.combo = 0;
+	$scope.highscore = 0;
 
 	$scope.popQuizSubmit = function()
 	{
@@ -76,6 +77,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			$scope.combo++;
 		else
 			$scope.combo = 0;
+
+		if($scope.combo > $scope.highscore)
+			$scope.highscore = $scope.combo;
 	}
 
 	$scope.refreshQuestion = function() 
