@@ -76,7 +76,10 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		if(correct)
 			$scope.combo++;
 		else
+		{
 			$scope.combo = 0;
+			$scope.questionsQueue.push($scope.question);
+		}
 
 		if($scope.combo > $scope.highscore)
 			$scope.highscore = $scope.combo;
