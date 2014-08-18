@@ -79,7 +79,7 @@
 		</div>
 	</div>
 	<div class="col-md-4 panel panel-default" ng-show="question">
-		<h1> Pop quiz </h1>
+		<h1> Reviewer </h1>
 		<div class="form-group">
 			<label> Type: </label> 
 			{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
