@@ -23,9 +23,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	
 	$scope.subjects = [];
 	$scope.newDeadline = {subject_id: 1};
-	$scope.quizSubjects = ["1"];
+	$scope.quizSubject = 1;
+	$scope.quizLesson = '';
 	$scope.deadlines = [];
-	$scope.days = 1;
 	$scope.questionsQueue = [];
 	$scope.type1 = false;
 	$scope.type2 = true;
@@ -93,19 +93,15 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		{
 			$scope.questionsQueue = $scope.questions.slice(0);
 
-			limit = new Date();
-
-			limit.setDate(limit.getDate() - $scope.days);
-
 			$scope.questionsQueue = _.filter($scope.questionsQueue, function(question) {
-				return new Date(question.created_at) > limit;
+				return question.question.indexOf($scope.quizLesson) > -1;
 			});
 
 			if($scope.questionsQueue.length == 0)
 				$scope.questionsQueue = $scope.questions.slice(0);
 			
 			$scope.questionsQueue = _.filter($scope.questionsQueue, function(question) {
-				return _.contains($scope.quizSubjects, question.subject_id.toString());
+				return $scope.quizSubject == question.subject_id.toString();
 			});
 
 			if($scope.questionsQueue.length == 0)

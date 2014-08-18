@@ -85,17 +85,13 @@
 			{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
 			{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
 		</div>
-		<div class="form-inline">
-			<div class="form-group">
-				<label> Subject: </label>
-				{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'multiple', 'ng-model' => 'quizSubjects'])}}
-			</div>
+		<div class="form-group input-group">
+			<span class="input-group-addon"> Subject: </span>
+			{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'ng-model' => 'quizSubject'])}}
 		</div>
-		<div class="form-inline">
-			<div class="form-group">
-				<label> Days from today: </label> 
-				<input type="text" class="form-control" ng-model="days">
-			</div>
+		<div class="form-group input-group">
+			<span class="input-group-addon"> Lesson(s): </span>
+			<input type="text" class="form-control" ng-model="quizLesson">
 		</div>
 		<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
 			<div class="panel-body">
