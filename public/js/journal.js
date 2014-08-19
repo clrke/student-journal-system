@@ -97,18 +97,13 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			$scope.questionsQueue = $scope.questions.slice(0);
 
 			$scope.questionsQueue = _.filter($scope.questionsQueue, function(question) {
-				return question.question.indexOf($scope.quizLesson) > -1;
+				return (question.question.indexOf($scope.quizLesson) > -1 || 
+						question.lesson.indexOf($scope.quizLesson) > -1) &&
+						$scope.quizSubject == question.subject_id.toString();
 			});
 
 			if($scope.questionsQueue.length == 0)
-				$scope.questionsQueue = $scope.questions.slice(0);
-			
-			$scope.questionsQueue = _.filter($scope.questionsQueue, function(question) {
-				return $scope.quizSubject == question.subject_id.toString();
-			});
-
-			if($scope.questionsQueue.length == 0)
-				$scope.questionsQueue = $scope.questions.slice(0);
+				$scope.questionsQueue = [{question:'No data matched by criteria', answers:[], sabotages:[], noData: true}];
 			
 			$scope.questionsQueue = $scope.shuffleArray($scope.questionsQueue);
 

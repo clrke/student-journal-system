@@ -6,6 +6,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.newQuestion = {};
 	$scope.newQuestion.subject_id = 1;
 	$scope.newQuestion.question = "";
+	$scope.newQuestion.lesson = "";
 	$scope.newQuestion.answers = [{}];
 	$scope.newQuestion.sabotages = [{}];
 
@@ -40,16 +41,18 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	$scope.addQuestion = function()
 	{
-		if($scope.newQuestion.question && $scope.newQuestion.answers[0].answer)
+		if($scope.newQuestion.question && $scope.newQuestion.lesson && $scope.newQuestion.answers[0].answer)
 		{
 			$http.post('/questions', $scope.newQuestion);
 
 			$scope.questions.unshift($scope.newQuestion);
 
 			var subject_id = $scope.newQuestion.subject_id;
-			
+			var lesson = $scope.newQuestion.lesson;
+
 			$scope.newQuestion = {};
 			$scope.newQuestion.subject_id = subject_id;
+			$scope.newQuestion.lesson = lesson;
 			$scope.newQuestion.answers = [{}];
 			$scope.newQuestion.sabotages = [{}];
 		}

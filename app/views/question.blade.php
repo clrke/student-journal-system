@@ -17,6 +17,10 @@
 						{{ Form::select('subject_id', $subjects, '', ['class' => 'form-control', 'ng-model' => 'newQuestion.subject_id'])}}
 					</div>
 					<div class="form-group">
+						{{ Form::label('Lesson *')}}
+						{{ Form::text('lesson', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.lesson'])}}
+					</div>
+					<div class="form-group">
 						{{ Form::label('question *')}}
 						{{ Form::text('question', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.question']) }}
 					</div>
@@ -51,7 +55,7 @@
 			</div>
 		</div>
 
-		<div class="panel panel-info" ng-repeat="question in questions | filter: {subject_id: newQuestion.subject_id}">
+		<div class="panel panel-info" ng-repeat="question in questions | filter: {subject_id: newQuestion.subject_id} | filter: newQuestion.lesson">
 			<div class="panel-heading">
 				<h3 class="panel-title">
 					@{{ question.question }}

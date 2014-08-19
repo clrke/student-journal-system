@@ -95,13 +95,14 @@
 		</div>
 		<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
 			<div class="panel-body">
-				<div class="panel panel-primary">
+				<div ng-class="question.noData? 'panel panel-info' : 'panel panel-primary'">
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							@{{ question.question }}
 						</h3>
 					</div>
 					<div class="panel-body" ng-show="type1">
+						<a class="btn btn-info" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
 						<ul class="list-group">
 							<li class="list-group-item" ng-repeat="answer in question.allAnswers">
 								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen'])}}
@@ -111,6 +112,7 @@
 						</ul> 
 					</div>
 					<div class="panel-body" ng-show="type2">
+						<a class="btn btn-info" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
 						<ul class="list-group">
 							<li class="list-group-item" ng-repeat="answer in question.answers">
 								<div ng-class="answer.status">
