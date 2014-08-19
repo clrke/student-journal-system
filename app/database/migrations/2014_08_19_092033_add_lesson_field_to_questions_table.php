@@ -14,7 +14,7 @@ class AddLessonFieldToQuestionsTable extends Migration {
 	{
 		Schema::table('questions', function(Blueprint $table)
 		{
-			$table->string('lesson')->after('subject_id');
+			$table->string('lesson')->after('subject_id')->nullable();
 		});
 	}
 

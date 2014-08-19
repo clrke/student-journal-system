@@ -41,7 +41,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	$scope.addQuestion = function()
 	{
-		if($scope.newQuestion.question && $scope.newQuestion.lesson && $scope.newQuestion.answers[0].answer)
+		if($scope.newQuestion.question && $scope.newQuestion.answers[0].answer)
 		{
 			$http.post('/questions', $scope.newQuestion);
 

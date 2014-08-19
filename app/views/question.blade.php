@@ -17,7 +17,7 @@
 						{{ Form::select('subject_id', $subjects, '', ['class' => 'form-control', 'ng-model' => 'newQuestion.subject_id'])}}
 					</div>
 					<div class="form-group">
-						{{ Form::label('Lesson *')}}
+						{{ Form::label('Lesson')}}
 						{{ Form::text('lesson', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.lesson'])}}
 					</div>
 					<div class="form-group">
@@ -58,7 +58,7 @@
 		<div class="panel panel-info" ng-repeat="question in questions | filter: {subject_id: newQuestion.subject_id} | filter: newQuestion.lesson">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					@{{ question.question }}
+					@{{ question.question }} <b ng-hide="newQuestion.lesson || ! question.lesson"> (@{{ question.lesson }}) </b>
 				</h3>
 			</div>
 			<div class="panel-body">
