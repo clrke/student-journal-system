@@ -98,7 +98,7 @@
 				<div ng-class="question.noData? 'panel panel-info' : 'panel panel-primary'">
 					<div class="panel-heading">
 						<h3 class="panel-title">
-							@{{ question.question }}
+							<b ng-hide="quizLesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
 						</h3>
 					</div>
 					<div class="panel-body" ng-show="type1 && !question.noData">

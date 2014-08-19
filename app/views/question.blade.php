@@ -58,7 +58,7 @@
 		<div class="panel panel-info" ng-repeat="question in questions | filter: {subject_id: newQuestion.subject_id} | filter: newQuestion.lesson">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					@{{ question.question }} <b ng-hide="newQuestion.lesson || ! question.lesson"> (@{{ question.lesson }}) </b>
+					 <b ng-hide="newQuestion.lesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
 				</h3>
 			</div>
 			<div class="panel-body">
