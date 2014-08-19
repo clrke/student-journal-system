@@ -31,6 +31,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.type2 = true;
 	$scope.combo = 0;
 	$scope.highscore = 0;
+	$scope.comboColor = "rgb(0, 208, 0)";
 
 	$scope.popQuizSubmit = function()
 	{
@@ -83,6 +84,8 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 		if($scope.combo > $scope.highscore)
 			$scope.highscore = $scope.combo;
+
+		$scope.refreshComboColor();
 	}
 
 	$scope.refreshQuestion = function() 
@@ -252,6 +255,21 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	$scope.deleteChecklist = function(checklist) {
 
+	}
+
+	$scope.refreshComboColor = function() {
+		$scope.comboColor = $scope.getComboColor();
+	}
+
+	$scope.getComboColor = function () {
+		if($scope.highscore == 0)
+			return 'rgb(0, 208, 0)';
+		else if($scope.combo == 0)
+			return 'rgb(208, 0, 0)';
+
+		green = Math.round(($scope.combo / $scope.highscore) * 208);
+
+		return 'rgb(0,'+green+',0)';
 	}
 }]);
 
