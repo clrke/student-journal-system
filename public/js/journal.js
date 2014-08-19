@@ -103,7 +103,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			});
 
 			if($scope.questionsQueue.length == 0)
-				$scope.questionsQueue = [{question:'No data matched by criteria', answers:[], sabotages:[], noData: true}];
+				$scope.questionsQueue = [{question:'No data matched by criteria', lesson:'', answers:[], sabotages:[], noData: true}];
 			
 			$scope.questionsQueue = $scope.shuffleArray($scope.questionsQueue);
 
