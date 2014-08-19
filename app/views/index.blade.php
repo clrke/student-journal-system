@@ -101,8 +101,7 @@
 							@{{ question.question }}
 						</h3>
 					</div>
-					<div class="panel-body" ng-show="type1">
-						<a class="btn btn-info" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
+					<div class="panel-body" ng-show="type1 && !question.noData">
 						<ul class="list-group">
 							<li class="list-group-item" ng-repeat="answer in question.allAnswers">
 								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen'])}}
@@ -111,8 +110,7 @@
 							</li>
 						</ul> 
 					</div>
-					<div class="panel-body" ng-show="type2">
-						<a class="btn btn-info" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
+					<div class="panel-body" ng-show="type2 && !question.noData">
 						<ul class="list-group">
 							<li class="list-group-item" ng-repeat="answer in question.answers">
 								<div ng-class="answer.status">
@@ -121,6 +119,9 @@
 								</div>
 							</li>
 						</ul>
+					</div>
+					<div class="panel-body" ng-show="question.noData">
+						<a class="form-control btn btn-info" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
 					</div>
 				</div>
 			</div>
