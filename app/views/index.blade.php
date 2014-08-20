@@ -131,7 +131,8 @@
 						<div class="panel-body" ng-show="type1 && !question.noData">
 							<ul class="list-group">
 								<li class="list-group-item" ng-repeat="answer in question.allAnswers">
-									{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen'])}}
+									{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen', 'ng-show' => 'question.answers.length > 1'])}}
+									{{ Form::radio('answer_chosen', '', 0, ['ng-model' => '$parent.answer_chosen', 'ng-value' => 'answer.id', 'ng-show' => 'question.answers.length == 1'])}}
 									@{{ answer.answer }}
 									<b> @{{ answer.judge }} </b>
 								</li>

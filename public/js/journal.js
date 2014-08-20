@@ -14,6 +14,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.highscore = 0;
 	$scope.comboColor = "rgb(0, 208, 0)";
 	$scope.tab = 'activities';
+	$scope.answer_chosen = 1;
 
 	$scope.shuffleArray = function(array) {
 	    for (var i = array.length - 1; i > 0; i--) {
@@ -53,6 +54,15 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 		if($scope.type1)
 		{
+			if($scope.question.answers.length == 1)		
+				for (var i = $scope.question.allAnswers.length - 1; i >= 0; i--) {
+					answer = $scope.question.allAnswers[i];
+
+					if(answer.id == $scope.answer_chosen)
+						answer.chosen = true;
+					else answer.chosen = false;
+				}
+			
 			for (var i = $scope.question.allAnswers.length - 1; i >= 0; i--) {
 				answer = $scope.question.allAnswers[i];
 				if(answer.correct && answer.chosen)
