@@ -209,10 +209,7 @@
 @stop
 
 @section('scripts')
-	{{ HTML::style('/css/grg.css')}}
-	{{ HTML::script('/js/jquery.min.js')}}
-	{{ HTML::script('/js/angular.js')}}
-	{{ HTML::script('/js/underscore.min.js')}}
 	{{ HTML::script('/js/main_jquery.js')}}
+	{{ HTML::script('/js/angular.js')}}
 	{{ HTML::script('/js/journal.js')}}
 @stop
