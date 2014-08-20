@@ -60,54 +60,66 @@
 			</div>
 		</div>
 		<div ng-show="tab=='activities'">
-			<div class="panel panel-info">
-				@foreach($days as $day)
-					@if(count(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get()))
-						<div class="panel-heading">
-							<h3 class="panel-title">{{ $day->toFormattedDateString() . '<small> ' . $day->format('D') . '</small>' }} </h3>
-						</div>
-						@foreach(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get() as $schedule)
-							<div class="panel-body activity">
-								@if($schedule->subject->activities()->whereHappenedAt($day)->first())
-									{{ Form::label('activity', $schedule->subject->subject)}}
-									<div class="panel panel-info click-activity" ng-click="getActivity('{{$day}}', '{{$schedule->subject->id}}')">
-										<div class="panel-body">
-											{{nl2br($schedule->subject->activities()->whereHappenedAt($day)->first()->activity)}}
-										</div>
-									</div>
-									{{ Form::textarea('activity', $schedule->subject->activities()->whereHappenedAt($day)->first()->activity, ['class' => 'form-control activity-text', 'rows' => 5, 'placeholder' => 'Loading...', 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
-								@else
-									{{ Form::label('activity', $schedule->subject->subject)}}
-									<div class="panel panel-info click-activity">
-										<div class="panel-body">
-											&nbsp;
-										</div>
-									</div>
-									{{ Form::textarea('activity', null, ['class' => 'form-control activity-text', 'rows' => 5, 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
-								@endif
+			<div class="panel-body">
+				<div class="panel panel-info">
+					@foreach($days as $day)
+						@if(count(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get()))
+							<div class="panel-heading">
+								<h3 class="panel-title">{{ $day->toFormattedDateString() . '<small> ' . $day->format('D') . '</small>' }} </h3>
 							</div>
-						@endforeach
-					@endif
-				@endforeach
+							@foreach(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get() as $schedule)
+								<div class="panel-body activity">
+									@if($schedule->subject->activities()->whereHappenedAt($day)->first())
+										{{ Form::label('activity', $schedule->subject->subject)}}
+										<div class="panel panel-info click-activity" ng-click="getActivity('{{$day}}', '{{$schedule->subject->id}}')">
+											<div class="panel-body">
+												{{nl2br($schedule->subject->activities()->whereHappenedAt($day)->first()->activity)}}
+											</div>
+										</div>
+										{{ Form::textarea('activity', $schedule->subject->activities()->whereHappenedAt($day)->first()->activity, ['class' => 'form-control activity-text', 'rows' => 5, 'placeholder' => 'Loading...', 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
+									@else
+										{{ Form::label('activity', $schedule->subject->subject)}}
+										<div class="panel panel-info click-activity">
+											<div class="panel-body">
+												&nbsp;
+											</div>
+										</div>
+										{{ Form::textarea('activity', null, ['class' => 'form-control activity-text', 'rows' => 5, 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
+									@endif
+								</div>
+							@endforeach
+						@endif
+					@endforeach
+				</div>
 			</div>
 		</div>
 		<div ng-show="tab=='reviewer'">
-			<div class="form-group">
-				<label> Type: </label> 
-				{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
-				{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
-			</div>
-			<div class="form-group input-group">
-				<span class="input-group-addon"> Subject: </span>
-				{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'ng-model' => 'quizSubject'])}}
-			</div>
-			<div class="form-group input-group">
-				<span class="input-group-addon"> Lesson(s): </span>
-				<input type="text" class="form-control" ng-model="quizLesson">
-			</div>
-			<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
-				<div class="panel-body">
-					<div ng-class="question.noData? 'panel panel-info' : 'panel panel-primary'">
+			<div class="panel-body">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title"> Settings </h3>
+					</div>
+					<div class="panel-body">
+						<div class="pull-right">
+							<span class="btn btn-primary" ng-click="questionsQueue = []; refreshQuestion()"> Apply </span>
+						</div>
+						<div class="form-group">
+							<label> Type: </label> 
+							{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
+							{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
+						</div>
+						<div class="form-group input-group">
+							<span class="input-group-addon"> Subject: </span>
+							{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'ng-model' => 'quizSubject'])}}
+						</div>
+						<div class="form-group input-group">
+							<span class="input-group-addon"> Lesson(s): </span>
+							<input type="text" class="form-control" ng-model="quizLesson">
+						</div>
+					</div>
+				</div>
+				<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
+					<div ng-class="question.noData? 'panel panel-danger' : 'panel panel-primary'">
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								<b ng-hide="quizLesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
@@ -136,67 +148,71 @@
 							</ul>
 						</div>
 						<div class="panel-body" ng-show="question.noData">
-							<a class="form-control btn btn-info" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
+							<a class="form-control btn btn-danger" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
 						</div>
 					</div>
-				</div>
 
-				<button class="btn btn-primary" ng-hide="correct"> Submit </button>
-				<button class="btn btn-default" ng-show="correct"> Refresh </button>
-				<span class="btn btn-default" ng-hide="correct" ng-click="questionsQueue = []; refreshQuestion()"> Refresh </span>
-				<table class="pull-right">
-					<tr>
-						<td ng-style="{'color':comboColor}"><b> Combo: </b></td>
-						<td ng-style="{'color':comboColor}"><b> @{{ combo }} </b></td>
-					</tr>
-					<tr>
-						<td style="color: #00D000"><b> High score:&nbsp; </b></td>
-						<td style="color: #00D000"><b> @{{ highscore }} </b></td>
-					</tr>
-				</table>
-			</form>
+					<button class="btn btn-primary" ng-hide="correct"> Submit </button>
+					<button class="btn btn-default" ng-show="correct"> Refresh </button>
+					<table class="pull-right">
+						<tr>
+							<td ng-style="{'color':comboColor}"><b> Combo: </b></td>
+							<td ng-style="{'color':comboColor}"><b> @{{ combo }} </b></td>
+						</tr>
+						<tr>
+							<td style="color: #00D000"><b> High score:&nbsp; </b></td>
+							<td style="color: #00D000"><b> @{{ highscore }} </b></td>
+						</tr>
+					</table>
+				</form>
+			</div>
 		</div>
 		<div ng-show="tab=='deadlines'">
-			<div class="row">
-				<div class="col-md-6" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
-					<div class="panel panel-info">
-						<div class="panel-heading">
-							<h1 class="panel-title">
-								<div class="pull-right">
-									<a ng-click="deleteDeadline(deadline.id)" class='x'> x </a>
-								</div>
-								@{{deadline.subject.subject}}<br/>
-								<small>@{{ deadline.deadline.original }} (@{{ deadline.deadline.diffForHumans }})</small>
-							</h1>
-						</div>
-						<div class="panel-body">	
-							<h4> @{{ deadline.caption }} </h4> 
-							<!-- <div ng-repeat="checklist in deadline.checklists" class="form-group input-group">
-								<span class="input-group-addon">
-									<input type="checkbox" ng-model="checklist.done"> 
-								</span>
-								<input type="text" ng-model="checklist.caption" class="form-control">
-								<span class="input-group-addon">
-									<button ng-click="deleteChecklist(checklist)" class="btn btn-xs btn-danger">
-										x
-									</button> 
-								</span>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-md-6" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<h1 class="panel-title">
+									<div class="pull-right">
+										<a ng-click="deleteDeadline(deadline.id)" class='x'> x </a>
+									</div>
+									@{{deadline.subject.subject}}<br/>
+									<small>@{{ deadline.deadline.original }} (@{{ deadline.deadline.diffForHumans }})</small>
+								</h1>
 							</div>
-							<button ng-click="addChecklist(deadline)" class="btn btn-primary"> + </button> -->
+							<div class="panel-body">	
+								<h4> @{{ deadline.caption }} </h4> 
+								<!-- <div ng-repeat="checklist in deadline.checklists" class="form-group input-group">
+									<span class="input-group-addon">
+										<input type="checkbox" ng-model="checklist.done"> 
+									</span>
+									<input type="text" ng-model="checklist.caption" class="form-control">
+									<span class="input-group-addon">
+										<button ng-click="deleteChecklist(checklist)" class="btn btn-xs btn-danger">
+											x
+										</button> 
+									</span>
+								</div>
+								<button ng-click="addChecklist(deadline)" class="btn btn-primary"> + </button> -->
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="panel panel-info">
-				<div class="panel-body">
-					<form ng-submit="addDeadline()" class="form">
-						<div class="form-group">
-							{{ Form::select('subject', $subjectsList, null, ['class' => 'form-control', 'ng-model' => 'newDeadline.subject_id']) }}
-							{{ Form::input('date', 'deadline', null, ['class' => 'form-control', 'ng-model' => 'newDeadline.deadline', 'required'])}}
-							{{ Form::textarea('caption', null, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Caption', 'ng-model' => 'newDeadline.caption', 'required'])}}
-						</div>
-						{{ Form::submit('New Deadline', ['class' => 'btn btn-primary form-control'])}}
-					{{ Form::close() }}
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title"> New Deadline </h3>
+					</div>
+					<div class="panel-body">
+						<form ng-submit="addDeadline()" class="form">
+							<div class="form-group">
+								{{ Form::select('subject', $subjectsList, null, ['class' => 'form-control', 'ng-model' => 'newDeadline.subject_id']) }}
+								{{ Form::input('date', 'deadline', null, ['class' => 'form-control', 'ng-model' => 'newDeadline.deadline', 'required'])}}
+								{{ Form::textarea('caption', null, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Caption', 'ng-model' => 'newDeadline.caption', 'required'])}}
+							</div>
+							{{ Form::submit('New Deadline', ['class' => 'btn btn-primary form-control'])}}
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
