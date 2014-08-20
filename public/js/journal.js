@@ -2,6 +2,19 @@ var JournalApp = angular.module('JournalApp', []);
 
 JournalApp.controller('JournalController', ['$scope', '$http', function($scope, $http) {
 	
+	$scope.subjects = [];
+	$scope.newDeadline = {subject_id: 1};
+	$scope.quizSubject = 1;
+	$scope.quizLesson = '';
+	$scope.deadlines = [];
+	$scope.questionsQueue = [];
+	$scope.type1 = false;
+	$scope.type2 = true;
+	$scope.combo = 0;
+	$scope.highscore = 0;
+	$scope.comboColor = "rgb(0, 208, 0)";
+	$scope.tab = 'activities';
+
 	$scope.shuffleArray = function(array) {
 	    for (var i = array.length - 1; i > 0; i--) {
 	        var j = Math.floor(Math.random() * (i + 1));
@@ -18,22 +31,18 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	$http.get('/questions').success(function(questions) {
 		$scope.questions = questions;
+
+		if(questions.length > 0)
+		{
+			var last = questions.slice(-1)[0];
+
+			$scope.quizSubject = last.subject_id;
+			$scope.quizLesson = last.lesson;
+		}
+
 		$scope.refreshQuestion();
 	});
 	
-	$scope.subjects = [];
-	$scope.newDeadline = {subject_id: 1};
-	$scope.quizSubject = 1;
-	$scope.quizLesson = '';
-	$scope.deadlines = [];
-	$scope.questionsQueue = [];
-	$scope.type1 = false;
-	$scope.type2 = true;
-	$scope.combo = 0;
-	$scope.highscore = 0;
-	$scope.comboColor = "rgb(0, 208, 0)";
-	$scope.tab = 'activities';
-
 	$scope.popQuizSubmit = function()
 	{
 		if( ! $scope.question )
