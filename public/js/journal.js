@@ -32,6 +32,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.combo = 0;
 	$scope.highscore = 0;
 	$scope.comboColor = "rgb(0, 208, 0)";
+	$scope.tab = 'activities';
 
 	$scope.popQuizSubmit = function()
 	{
