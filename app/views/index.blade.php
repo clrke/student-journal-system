@@ -112,7 +112,7 @@
 							<h3 class="panel-title">
 								<b ng-hide="quizLesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
 								<center ng-if="question.image">
-									<img ng-src="/img/@{{question.image}}">
+									<img ng-src="/img/@{{question.image}}" class="img-responsive img-rounded img-thumbnail">
 								</center>
 							</h3>
 						</div>
