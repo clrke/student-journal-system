@@ -160,30 +160,34 @@
 		</div>
 		<div ng-show="tab=='deadlines'">
 			<h1> Deadlines </h1>
-			<div class="panel panel-info" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
-				<div class="panel-heading">
-					<h1 class="panel-title">
-						<div class="pull-right">
-							<a ng-click="deleteDeadline(deadline.id)" class='x'> x </a>
+			<div class="row">
+				<div class="col-md-6" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
+					<div class="panel panel-info">
+						<div class="panel-heading">
+							<h1 class="panel-title">
+								<div class="pull-right">
+									<a ng-click="deleteDeadline(deadline.id)" class='x'> x </a>
+								</div>
+								@{{deadline.subject.subject}}<br/>
+								<small>@{{ deadline.deadline.original }} (@{{ deadline.deadline.diffForHumans }})</small>
+							</h1>
 						</div>
-						@{{deadline.subject.subject}}<br/>
-						<small>@{{ deadline.deadline.original }} (@{{ deadline.deadline.diffForHumans }})</small>
-					</h1>
-				</div>
-				<div class="panel-body">	
-					<h4> @{{ deadline.caption }} </h4> 
-					<!-- <div ng-repeat="checklist in deadline.checklists" class="form-group input-group">
-						<span class="input-group-addon">
-							<input type="checkbox" ng-model="checklist.done"> 
-						</span>
-						<input type="text" ng-model="checklist.caption" class="form-control">
-						<span class="input-group-addon">
-							<button ng-click="deleteChecklist(checklist)" class="btn btn-xs btn-danger">
-								x
-							</button> 
-						</span>
+						<div class="panel-body">	
+							<h4> @{{ deadline.caption }} </h4> 
+							<!-- <div ng-repeat="checklist in deadline.checklists" class="form-group input-group">
+								<span class="input-group-addon">
+									<input type="checkbox" ng-model="checklist.done"> 
+								</span>
+								<input type="text" ng-model="checklist.caption" class="form-control">
+								<span class="input-group-addon">
+									<button ng-click="deleteChecklist(checklist)" class="btn btn-xs btn-danger">
+										x
+									</button> 
+								</span>
+							</div>
+							<button ng-click="addChecklist(deadline)" class="btn btn-primary"> + </button> -->
+						</div>
 					</div>
-					<button ng-click="addChecklist(deadline)" class="btn btn-primary"> + </button> -->
 				</div>
 			</div>
 			<div class="panel panel-info">
