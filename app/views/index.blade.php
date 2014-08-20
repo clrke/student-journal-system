@@ -49,18 +49,17 @@
 		<div class="panel-body">
 			<div class="btn-group btn-group-justified">
 				<div class="btn-group">
-					<button type="button" class="btn" ng-class="tab=='activities'? 'btn-primary' : 'btn-default'" ng-click="tab='activities'">Activities</button>
+					<button type="button" class="btn btn-lg" ng-class="tab=='activities'? 'btn-primary' : 'btn-default'" ng-click="tab='activities'">Activities</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn" ng-class="tab=='reviewer'? 'btn-primary' : 'btn-default'" ng-click="tab='reviewer'">Reviewer</button>
+					<button type="button" class="btn btn-lg" ng-class="tab=='reviewer'? 'btn-primary' : 'btn-default'" ng-click="tab='reviewer'">Reviewer</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn" ng-class="tab=='deadlines'? 'btn-primary' : 'btn-default'" ng-click="tab='deadlines'">Deadline</button>
+					<button type="button" class="btn btn-lg" ng-class="tab=='deadlines'? 'btn-primary' : 'btn-default'" ng-click="tab='deadlines'">Deadline</button>
 				</div>
 			</div>
 		</div>
 		<div ng-show="tab=='activities'">
-			<h1> Activities</h1>
 			<div class="panel panel-info">
 				@foreach($days as $day)
 					@if(count(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get()))
@@ -93,7 +92,6 @@
 			</div>
 		</div>
 		<div ng-show="tab=='reviewer'">
-			<h1> Reviewer </h1>
 			<div class="form-group">
 				<label> Type: </label> 
 				{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
@@ -159,7 +157,6 @@
 			</form>
 		</div>
 		<div ng-show="tab=='deadlines'">
-			<h1> Deadlines </h1>
 			<div class="row">
 				<div class="col-md-6" ng-repeat="deadline in deadlines | orderBy:'deadline.original'">
 					<div class="panel panel-info">
