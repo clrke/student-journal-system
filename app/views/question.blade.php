@@ -10,47 +10,60 @@
 					New Question
 				</h3>
 			</div>
+
 			<div class="panel-body">
-				<form ng-submit="addQuestion()">
-					<table style="margin-bottom:20px">
-						<tr>
-							<td style="padding-right:20px">{{ Form::label('Subject *')}}</td>
-							<td>{{ Form::select('subject_id', $subjects, '', ['class' => 'form-control', 'ng-model' => 'newQuestion.subject_id'])}}</td>
-						</tr>
-						<tr>
-							<td>{{ Form::label('Lesson')}}</td>
-							<td>{{ Form::text('lesson', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.lesson'])}}</td>
-						</tr>
-					</table>
-					<div class="form-group">
-						{{ Form::label('question *')}}
-						{{ Form::text('question', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.question']) }}
+				<form class="form-horizontal" ng-submit="addQuestion()">
+					<div class="form-group row">
+						<div class="col-md-4">{{ Form::label('Subject *')}}</div>
+						<div class="col-md-8">{{ Form::select('subject_id', $subjects, '', ['class' => 'form-control', 'ng-model' => 'newQuestion.subject_id'])}}</div>
 					</div>
-					<div class="form-group">
-						{{ Form::label('answers *') }}
-						<div class="form-group input-group" ng-repeat="answer in newQuestion.answers">
-							<input class="form-control" ng-model="answer.answer">
-							<span class="btn btn-primary input-group-addon" ng-click="addAnswer(newQuestion)"> 
-								+ 
-							</span>
-							<span class="btn btn-danger input-group-addon" ng-hide="$first" ng-click="deleteAnswer(newQuestion, answer)">
-								-
-							</span>
+					<div class="form-group row">
+						<div class="col-md-4">{{ Form::label('Lesson')}}</div>
+						<div class="col-md-8">{{ Form::text('lesson', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.lesson'])}}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-4">{{ Form::label('question *')}}</div>
+						<div class="col-md-8">{{ Form::text('question', '', ['class' => 'form-control', 'ng-model' => 'newQuestion.question']) }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-4">{{ Form::label('Image')}}</div>
+						<div class="col-md-8">{{ Form::text('image', '', ['class' => 'form-control', 'accept' => 'image/*', 'ng-model' => 'newQuestion.image']) }}</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-4">{{ Form::label('answers *') }}</div>
+						<div ng-repeat="answer in newQuestion.answers">
+							<div class="col-md-4" ng-if=" ! $first"> &nbsp; </div>
+							<div class="col-md-8">
+								<div class="input-group">
+									<input type="text" class="form-control" ng-model="answer.answer">
+									<span class="btn btn-danger input-group-addon" ng-if=" ! $first" ng-click="deleteAnswer(newQuestion, answer)">
+										<i class="fa fa-minus"> </i>
+									</span>
+									<span class="btn btn-primary input-group-addon" ng-click="addAnswer(newQuestion)"> 
+										<i class="fa fa-plus"> </i>
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						{{ Form::label('sabotage') }}
-						<div class="form-group input-group" ng-repeat="sabotage in newQuestion.sabotages">
-							<input class="form-control" ng-model="sabotage.answer">
-							<span class="btn btn-primary input-group-addon" ng-click="addSabotage(newQuestion)"> 
-								+ 
-							</span>
-							<span class="btn btn-danger input-group-addon" ng-hide="$first" ng-click="deleteSabotage(newQuestion, sabotage)">
-								-
-							</span>
+					<div class="form-group row">
+						<div class="col-md-4"> {{ Form::label('sabotage') }} </div>
+						<div ng-repeat="sabotage in newQuestion.sabotages">
+							<div class="col-md-4" ng-if=" ! $first"> &nbsp; </div>
+							<div class="col-md-8">
+								<div class="input-group">
+									<input class="form-control" ng-model="sabotage.answer">
+									<span class="btn btn-danger input-group-addon" ng-if=" ! $first" ng-click="deleteSabotage(newQuestion, sabotage)">
+										<i class="fa fa-minus"> </i>
+									</span>
+									<span class="btn btn-primary input-group-addon" ng-click="addSabotage(newQuestion)"> 
+										<i class="fa fa-plus"> </i>
+									</span>
+								</div>
+							</div>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">
+					<button type="submit" class="btn btn-primary pull-right">
 						Create
 					</button>
 				</form>
@@ -60,7 +73,10 @@
 		<div class="panel panel-info" ng-repeat="question in questions | filter: {subject_id: newQuestion.subject_id} | filter: newQuestion.lesson">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					 <b ng-hide="newQuestion.lesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
+					<b ng-hide="newQuestion.lesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
+					<div ng-if="question.image">
+						<img ng-src="/img/@{{question.image}}">
+					</div>
 				</h3>
 			</div>
 			<div class="panel-body">

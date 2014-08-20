@@ -2,7 +2,7 @@
 
 class Question extends Eloquent
 {
-	public $fillable = ['subject_id', 'lesson', 'question'];
+	public $fillable = ['subject_id', 'lesson', 'question', 'image'];
 
 	public function subject()
 	{

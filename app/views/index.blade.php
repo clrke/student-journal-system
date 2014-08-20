@@ -99,6 +99,9 @@
 					<div class="panel-heading">
 						<h3 class="panel-title">
 							<b ng-hide="quizLesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
+							<div ng-if="question.image">
+								<img ng-src="/img/@{{question.image}}">
+							</div>
 						</h3>
 					</div>
 					<div class="panel-body" ng-show="type1 && !question.noData">
