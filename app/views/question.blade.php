@@ -73,10 +73,10 @@
 		<div class="panel panel-info" ng-repeat="question in questions | filter: {subject_id: newQuestion.subject_id} | filter: newQuestion.lesson">
 			<div class="panel-heading">
 				<h3 class="panel-title">
-					<b ng-hide="newQuestion.lesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
-					<div ng-if="question.image">
-						<img ng-src="/img/@{{question.image}}">
-					</div>
+					<b ng-hide="quizLesson !== '' || question.lesson === ''"> @{{ question.lesson }}: </b> @{{ question.question }}
+					<center ng-if="question.image">
+						<img ng-src="/img/@{{question.image}}" class="img-responsive img-rounded img-thumbnail">
+					</center>
 				</h3>
 			</div>
 			<div class="panel-body">

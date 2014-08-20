@@ -100,29 +100,31 @@
 						<h3 class="panel-title"> Settings </h3>
 					</div>
 					<div class="panel-body">
-						<div class="pull-right">
-							<span class="btn btn-primary" ng-click="questionsQueue = []; refreshQuestion()"> Apply </span>
-						</div>
-						<div class="form-group">
-							<label> Type: </label> 
-							{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
-							{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
-						</div>
-						<div class="form-group input-group">
-							<span class="input-group-addon"> Subject: </span>
-							{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'ng-model' => 'quizSubject'])}}
-						</div>
-						<div class="form-group input-group">
-							<span class="input-group-addon"> Lesson(s): </span>
-							<input type="text" class="form-control" ng-model="quizLesson">
-						</div>
+						<form ng-submit="questionsQueue = []; refreshQuestion()"> 
+							<div class="pull-right">
+								<button class="btn btn-primary"> Apply </button>
+							</div>
+							<div class="form-group">
+								<label> Type: </label> 
+								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
+								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
+							</div>
+							<div class="form-group input-group">
+								<span class="input-group-addon"> Subject: </span>
+								{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'ng-model' => 'quizSubject'])}}
+							</div>
+							<div class="form-group input-group">
+								<span class="input-group-addon"> Lesson(s): </span>
+								<input type="text" class="form-control" ng-model="quizLesson">
+							</div>
+						</form>
 					</div>
 				</div>
 				<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
 					<div ng-class="question.noData? 'panel panel-danger' : 'panel panel-primary'">
 						<div class="panel-heading">
 							<h3 class="panel-title">
-								<b ng-hide="quizLesson || ! question.lesson"> @{{ question.lesson }}: </b> @{{ question.question }}
+								<b ng-hide="quizLesson !== '' || question.lesson === ''"> @{{ question.lesson }}: </b> @{{ question.question }}
 								<center ng-if="question.image">
 									<img ng-src="/img/@{{question.image}}" class="img-responsive img-rounded img-thumbnail">
 								</center>
