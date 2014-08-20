@@ -49,13 +49,13 @@
 		<div class="panel-body">
 			<div class="btn-group btn-group-justified">
 				<div class="btn-group">
-					<button type="button" class="btn btn-default" ng-click="tab='activities'">Activities</button>
+					<button type="button" class="btn" ng-class="tab=='activities'? 'btn-primary' : 'btn-default'" ng-click="tab='activities'">Activities</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-default" ng-click="tab='reviewer'">Reviewer</button>
+					<button type="button" class="btn" ng-class="tab=='reviewer'? 'btn-primary' : 'btn-default'" ng-click="tab='reviewer'">Reviewer</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-default" ng-click="tab='deadlines'">Deadline</button>
+					<button type="button" class="btn" ng-class="tab=='deadlines'? 'btn-primary' : 'btn-default'" ng-click="tab='deadlines'">Deadline</button>
 				</div>
 			</div>
 		</div>
