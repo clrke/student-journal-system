@@ -172,7 +172,7 @@
 				</div>
 				<div class="panel-body">	
 					<h4> @{{ deadline.caption }} </h4> 
-					<div ng-repeat="checklist in deadline.checklists" class="form-group input-group">
+					<!-- <div ng-repeat="checklist in deadline.checklists" class="form-group input-group">
 						<span class="input-group-addon">
 							<input type="checkbox" ng-model="checklist.done"> 
 						</span>
@@ -183,7 +183,7 @@
 							</button> 
 						</span>
 					</div>
-					<button ng-click="addChecklist(deadline)" class="btn btn-primary"> + </button>
+					<button ng-click="addChecklist(deadline)" class="btn btn-primary"> + </button> -->
 				</div>
 			</div>
 			<div class="panel panel-info">
