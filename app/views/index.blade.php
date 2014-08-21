@@ -62,6 +62,34 @@
 		<div ng-show="tab=='activities'">
 			<div class="panel-body">
 				<div class="panel panel-info">
+					<div class="panel-body">
+						<div class="btn btn-default btn-block">@{{year}}</div>
+						<div class="form-group btn-group btn-group-justified">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default" ng-click="subMonth();">@{{ prevMonth }}</button>
+							</div>
+							<div class="btn-group">
+								<button type="button" class="btn btn-primary">@{{ currMonth }}</button>
+							</div>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default" ng-click="addMonth();">@{{ nextMonth }}</button>
+							</div>
+						</div>
+						<div class="btn-group btn-group-justified" ng-repeat="week in [0, 1, 2, 3, 4, 5]">
+							<div class="btn-group" ng-repeat="day in daysInWeek(currMonth, week, year)">
+								<button type="button" class="btn btn-default" ng-class="currDay == day? 'active' : ''"
+									ng-click="day < 1 || day > lastDay? '' : setDay(day);" ng-style="{'background-color':getActivityDayColor(year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + day).slice(-2))}">
+									@{{ day < 1 || day > lastDay ? '&nbsp;' : day }}
+								</button>
+							</div>
+						</div>
+						<div ng-repeat="activity in activities|filter:{'happened_at':year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + currDay).slice(-2)}">
+							<b> @{{activity.subject.subject}} </b> <br/>
+							<p style="white-space: pre;"> @{{activity.activity}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-info">
 					@foreach($days as $day)
 						@if(count(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get()))
 							<div class="panel-heading">

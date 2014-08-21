@@ -156,3 +156,9 @@ Route::get('/quotes', function()
 {
 	return File::get('public/quotes.json');
 });
+
+Route::get('/activities', function()
+{
+	return Activity::with('subject')->get();
+});
+

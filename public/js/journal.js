@@ -16,15 +16,15 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.tab = 'activities';
 	$scope.answer_chosen = 1;
 
-	$scope.shuffleArray = function(array) {
-	    for (var i = array.length - 1; i > 0; i--) {
-	        var j = Math.floor(Math.random() * (i + 1));
-	        var temp = array[i];
-	        array[i] = array[j];
-	        array[j] = temp;
-	    }
-	    return array;
-	}
+	$scope.currDay = new Date().getDate();
+	$scope.lastDay = new Date();
+	$scope.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	$scope.month = new Date().getMonth();
+	$scope.year = new Date().getFullYear();
+
+	$scope.activities = [];
+	$scope.activityDays = [];
+	$scope.maxActivity = 0;
 
 	$http.get('/quotes').success(function(quotes) {
 		$scope.quoteList = $scope.shuffleArray(quotes);
@@ -44,6 +44,95 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		$scope.refreshQuestion();
 	});
 	
+	$http.get('/activities').success(function (activities) {
+		$scope.activities = activities;
+
+		$scope.longestActivity = 0;
+
+		for (var i = 0; i < activities.length; i++) {
+			var found = false;
+			for (var i = 0; i < $scope.activityDays.length; i++) {
+				if($scope.activityDays[i].day == activities[i].day)
+				{
+					$scope.activityDays[i].chars += activities[i].activity.length;
+					found = true;
+					break;
+				}
+			}
+			if( ! found)
+				$scope.activityDays.push({day:activities[i].happened_at, chars: activities[i].activity.length});
+		};
+
+		for (var i = 0; i < $scope.activityDays.length; i++) {
+			if($scope.maxActivity < $scope.activityDays[i].chars)
+				$scope.maxActivity = $scope.activityDays[i].chars;
+		};
+	});
+
+	$scope.getActivityDayColor = function (activityDay) {
+		for (var i = 0; i < $scope.activityDays.length; i++) {
+			if(activityDay == $scope.activityDays[i].day)
+			{
+				var intensity = Math.round(255-($scope.activityDays[i].chars * 255 / $scope.maxActivity));
+				return 'rgb(255,'+intensity+','+intensity+')';
+			}
+		}
+		return 'rgb(255, 255, 255)';
+	}
+
+	$scope.addMonth = function() {
+		$scope.month = ($scope.month+1) % 12;
+		$scope.setMonths();
+		if($scope.currMonth == 'January') $scope.year++;
+	}
+
+	$scope.subMonth = function() {
+		$scope.month = ($scope.month+11) % 12;
+		$scope.setMonths();
+		if($scope.currMonth == 'December') $scope.year--;
+	}
+
+	$scope.setMonths = function() {
+		$scope.prevMonth = $scope.months[($scope.month+11) % 12];
+		$scope.currMonth = $scope.months[ $scope.month];
+		$scope.nextMonth = $scope.months[($scope.month+1) % 12];
+	}
+
+	$scope.setMonths();
+
+	$scope.setDay = function (day) {
+		$scope.currDay = day;
+	}
+	$scope.daysInWeek = function(month, week, year) {
+		var firstDate = new Date();
+
+		firstDate.setMonth($scope.month);
+		firstDate.setDate(1);
+		firstDate.setFullYear($scope.year);
+
+		$scope.lastDay = new Date(new Date($scope.year, ($scope.month+1) % 12, 1)-1).getDate();
+
+		var firstDay = firstDate.getDay();
+
+		var daysInWeek = [];
+
+		for (var i = 0; i < 7; i++) {
+			daysInWeek.push((week * 7) + (i - firstDay + 1));
+		}
+
+		return daysInWeek;
+	}
+
+	$scope.shuffleArray = function(array) {
+	    for (var i = array.length - 1; i > 0; i--) {
+	        var j = Math.floor(Math.random() * (i + 1));
+	        var temp = array[i];
+	        array[i] = array[j];
+	        array[j] = temp;
+	    }
+	    return array;
+	}
+
 	$scope.popQuizSubmit = function()
 	{
 		if( ! $scope.question )
