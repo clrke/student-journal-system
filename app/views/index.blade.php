@@ -136,6 +136,7 @@
 								<label> Type: </label> 
 								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
 								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
+								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type3'])}} Hard Mode
 							</div>
 							<div class="form-group input-group">
 								<span class="input-group-addon"> Subject: </span>
@@ -174,6 +175,16 @@
 									<div ng-class="answer.status">
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;']) }}
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first']) }}
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="panel-body" ng-show="type3 && !question.noData">
+							<ul class="list-group">
+								<li class="list-group-item" ng-repeat="answer in question.answers">
+									<div ng-class="answer.status">
+										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;', 'ng-change' => 'checkAnswer(answer);']) }}
+										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first', 'ng-change' => 'checkAnswer(answer);']) }}
 									</div>
 								</li>
 							</ul>

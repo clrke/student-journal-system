@@ -9,7 +9,8 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.deadlines = [];
 	$scope.questionsQueue = [];
 	$scope.type1 = false;
-	$scope.type2 = true;
+	$scope.type2 = false;
+	$scope.type3 = true;
 	$scope.combo = 0;
 	$scope.highscore = 0;
 	$scope.comboColor = "rgb(0, 208, 0)";
@@ -243,6 +244,40 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		$scope.question = question;
 		
 		$scope.correct = false;
+	}
+
+	$scope.checkAnswer = function (answer) {
+		if( ! answer.try || answer.try.toLowerCase() != answer.answer.substring(0, answer.try.length).toLowerCase())
+		{
+			answer.status = "has-error";
+			$scope.combo = 0;
+			$scope.refreshComboColor();
+			answer.try = answer.answer.substring(0, answer.try.length-1);
+		}
+		else if(answer.try.length == answer.answer.length)
+			answer.status = "has-success";
+		else
+			answer.status = "";
+
+		correct = true;
+
+		for (var i = $scope.question.answers.length - 1; i >= 0; i--) {
+			if($scope.question.answers[i].status != "has-success")
+			{
+				correct = false;
+				break;
+			}
+		}
+
+		if(correct)
+		{
+			$scope.combo++;
+
+			if($scope.combo > $scope.highscore)
+				$scope.highscore = $scope.combo;
+			$scope.refreshQuestion();
+			$scope.refreshComboColor();
+		}
 	}
 
 	function refresh()
