@@ -168,7 +168,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			};
 		}
 
-		if($scope.type2)
+		if($scope.type2 || $scope.type3)
 		{
 			for (var i = $scope.question.answers.length - 1; i >= 0; i--) {
 				answer = $scope.question.answers[i];
@@ -272,6 +272,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		if(correct)
 		{
 			$scope.combo++;
+
+			if($scope.combo == 1)
+				$scope.questionsQueue.push($scope.question);
 
 			if($scope.combo > $scope.highscore)
 				$scope.highscore = $scope.combo;
