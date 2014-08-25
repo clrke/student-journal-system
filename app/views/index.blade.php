@@ -183,8 +183,8 @@
 							<ul class="list-group">
 								<li class="list-group-item" ng-repeat="answer in question.answers">
 									<div ng-class="answer.status">
-										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;', 'ng-change' => 'checkAnswer(answer);']) }}
-										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first', 'ng-change' => 'checkAnswer(answer);']) }}
+										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
+										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
 									</div>
 								</li>
 							</ul>
