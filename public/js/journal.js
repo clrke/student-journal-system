@@ -188,7 +188,10 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			$scope.combo++;
 		else
 		{
-			$scope.combo = 0;
+			if($scope.type3)
+				$scope.combo = 1;
+			else
+				$scope.combo = 0;
 			$scope.questionsQueue.push($scope.question);
 		}
 
