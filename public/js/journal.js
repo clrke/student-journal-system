@@ -338,15 +338,10 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.saveActivity = function(activity) {
 		return $http.post('subjects/'+activity.subject_id+'/activities/'+activity.happened_at, activity);
 	}
-
-	$scope.getActivity = function(subject, date) {
-		for (var i = 0; i < subject.activities.length; i++) {
-			if(subject.activities[i].happened_at == date)
-				return [subject.activities[i]];
-
-		};
-		$scope.saveActivity({subject_id: subject.id, happened_at: date, activity: ''});
-	};
+	
+	$scope.newActivity = function (subject, date) {
+		return {subject_id: subject.id, happened_at: date, activity: ''};
+	}
 
 	$scope.addDeadline = function() {
 		deadline = 

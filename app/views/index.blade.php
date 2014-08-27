@@ -86,11 +86,13 @@
 						<br/>
 						<div ng-repeat="schedule in schedules|filter:{day_of_week:currDayOfWeek}">
 							<h4>@{{schedule.subject.subject}} </h4>
-							<div ng-repeat="activity in schedule.subject.activities|filter:{happened_at: currentFullDate()}">
+							<div ng-repeat="activity in filteredActivity = (schedule.subject.activities|filter:{happened_at: currentFullDate()})">
 								<div class="panel panel-info click-activity" ng-click="activity.edit = true;" ng-hide="activity.edit">
 									<div class="panel-body" style="white-space: pre-line;"> @{{activity.activity.trim()}} </div>
 								</div>
 								<textarea rows="3" class="form-control" ng-model="activity.activity" ng-if="activity.edit" focus-asap='true' ng-blur="activity.edit=false; saveActivity(activity);"></textarea>
+							</div>
+							<div ng-if="filteredActivity.length == 0" ng-init="schedule.subject.activities.push(newActivity(schedule.subject, currentFullDate()))">
 							</div>
 						</div>
 					</div>
