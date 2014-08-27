@@ -3,6 +3,7 @@ var JournalApp = angular.module('JournalApp', []);
 JournalApp.controller('JournalController', ['$scope', '$http', function($scope, $http) {
 	
 	$scope.subjects = [];
+	$scope.schedules = [];
 	$scope.newDeadline = {subject_id: 1};
 	$scope.quizSubject = 1;
 	$scope.quizLesson = '';
@@ -17,6 +18,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.tab = 'activities';
 	$scope.answer_chosen = 1;
 
+	$scope.currDayOfWeek = new Date().getDay();
 	$scope.currDay = new Date().getDate();
 	$scope.lastDay = new Date();
 	$scope.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -27,49 +29,70 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.activityDays = [];
 	$scope.maxActivity = 0;
 
-	$http.get('/quotes').success(function(quotes) {
-		$scope.quoteList = $scope.shuffleArray(quotes);
-	});
+	function refresh()
+	{
+		$http.get('/quotes').success(function(quotes) {
+			$scope.quoteList = $scope.shuffleArray(quotes);
+		});
 
-	$http.get('/questions').success(function(questions) {
-		$scope.questions = questions;
+		$http.get('subjects').success(function(subjects) {
+			$scope.subjects = subjects;
+		});
 
-		if(questions.length > 0)
-		{
-			var last = questions.slice(-1)[0];
+		$http.get('schedules').success(function(schedules) {
+			$scope.schedules = schedules;
+		});
 
-			$scope.quizSubject = last.subject_id;
-			$scope.quizLesson = last.lesson;
-		}
+		$http.get('/activities').success(function (activities) {
+			$scope.activities = activities;
 
-		$scope.refreshQuestion();
-	});
-	
-	$http.get('/activities').success(function (activities) {
-		$scope.activities = activities;
+			$scope.longestActivity = 0;
 
-		$scope.longestActivity = 0;
-
-		for (var i = 0; i < activities.length; i++) {
-			var found = false;
-			for (var i = 0; i < $scope.activityDays.length; i++) {
-				if($scope.activityDays[i].day == activities[i].day)
-				{
-					$scope.activityDays[i].chars += activities[i].activity.length;
-					found = true;
-					break;
+			for (var i = 0; i < activities.length; i++) {
+				var found = false;
+				for (var i = 0; i < $scope.activityDays.length; i++) {
+					if($scope.activityDays[i].day == activities[i].day)
+					{
+						$scope.activityDays[i].chars += activities[i].activity.length;
+						found = true;
+						break;
+					}
 				}
+				if( ! found)
+					$scope.activityDays.push({day:activities[i].happened_at, chars: activities[i].activity.length});
+			};
+
+			for (var i = 0; i < $scope.activityDays.length; i++) {
+				if($scope.maxActivity < $scope.activityDays[i].chars)
+					$scope.maxActivity = $scope.activityDays[i].chars;
+			};
+		});
+
+		$http.get('/questions').success(function(questions) {
+			$scope.questions = questions;
+
+			if(questions.length > 0)
+			{
+				var last = questions.slice(-1)[0];
+
+				$scope.quizSubject = last.subject_id;
+				$scope.quizLesson = last.lesson;
 			}
-			if( ! found)
-				$scope.activityDays.push({day:activities[i].happened_at, chars: activities[i].activity.length});
-		};
 
-		for (var i = 0; i < $scope.activityDays.length; i++) {
-			if($scope.maxActivity < $scope.activityDays[i].chars)
-				$scope.maxActivity = $scope.activityDays[i].chars;
-		};
-	});
+			$scope.refreshQuestion();
+		});
 
+		$http.get('deadlines').success(function(deadlines) {
+			$scope.deadlines = deadlines;
+		});
+
+		$http.get('timelines/current/id').success(function(timeline_id) {
+			$scope.timeline_id = timeline_id;
+		});
+	}
+
+	refresh();
+	
 	$scope.getActivityDayColor = function (activityDay) {
 		for (var i = 0; i < $scope.activityDays.length; i++) {
 			if(activityDay == $scope.activityDays[i].day)
@@ -101,9 +124,11 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	$scope.setMonths();
 
-	$scope.setDay = function (day) {
+	$scope.setDay = function (day, dayOfWeek) {
 		$scope.currDay = day;
+		$scope.currDayOfWeek = dayOfWeek;
 	}
+
 	$scope.daysInWeek = function(month, week, year) {
 		var firstDate = new Date();
 
@@ -289,23 +314,6 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		}
 	}
 
-	function refresh()
-	{
-		$http.get('subjects').success(function(subjects) {
-			$scope.subjects = subjects;
-		});
-
-		$http.get('timelines/current/id').success(function(timeline_id) {
-			$scope.timeline_id = timeline_id;
-		});
-
-		$http.get('deadlines').success(function(deadlines) {
-			$scope.deadlines = deadlines;
-		});
-	}
-
-	refresh();
-
 	$scope.addSubject = function() {
 		var subject = ({
 			timeline_id: $scope.timeline_id,
@@ -315,8 +323,6 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 		$http.post('subjects', subject);
 		$scope.subjects.push(subject);
-
-		//refresh();
 	}
 
 	$scope.editSubject = function(id) {
@@ -327,27 +333,19 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		});
 
 		$http.post('subjects/'+id+'/edit', subject);
-
-		//refresh();
 	}
 
-	$scope.editActivity = function(day, id) {
-
-		var activity = ({
-			subject_id : id,
-			happened_at : day,
-			activity : $scope.edit
-		});
-
-		$scope.edit = '';
-		$http.post('subjects/'+id+'/activities/'+day, activity);
+	$scope.saveActivity = function(activity) {
+		return $http.post('subjects/'+activity.subject_id+'/activities/'+activity.happened_at, activity);
 	}
 
-	$scope.getActivity = function(day, id) {
-		$http.get('subjects/'+id+'/activities/'+day).success(function(activity){
-			if(activity) $scope.edit = activity;
-			else $scope.edit = ' ';
-		});
+	$scope.getActivity = function(subject, date) {
+		for (var i = 0; i < subject.activities.length; i++) {
+			if(subject.activities[i].happened_at == date)
+				return [subject.activities[i]];
+
+		};
+		$scope.saveActivity({subject_id: subject.id, happened_at: date, activity: ''});
 	};
 
 	$scope.addDeadline = function() {
@@ -418,6 +416,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		green = Math.round(($scope.combo / $scope.highscore) * 208);
 
 		return 'rgb(0,'+green+',0)';
+	}
+	$scope.currentFullDate = function () {
+		return $scope.year+'-'+('0'+($scope.month+1)).slice(-2)+'-'+('0' + $scope.currDay).slice(-2);
 	}
 }]);
 

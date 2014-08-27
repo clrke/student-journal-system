@@ -70,7 +70,7 @@ Route::get('timelines/current/id', function()
 
 Route::get('subjects', function()
 {
-	return Timeline::current()->subjects;
+	return Timeline::current()->subjects()->with('schedules')->get();
 });
 
 Route::post('subjects', function()
@@ -103,8 +103,7 @@ Route::post('subjects/{id}/activities/{day}', function($id, $day)
 
 	return $activity;
 });
-
-Route::post('schedules/', ['as' => 'schedules.store', 'uses' => 'SchedulesController@store']);
+Route::resource('schedules', 'SchedulesController');
 
 Route::get('diffForHumans/{date}', function($date)
 {

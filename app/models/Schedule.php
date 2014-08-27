@@ -6,6 +6,6 @@ class Schedule extends Eloquent
 
 	public function subject()
 	{
-		return $this->belongsTo('Subject');
+		return $this->belongsTo('Subject')->with('activities');
 	}
 }

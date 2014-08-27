@@ -78,46 +78,22 @@
 						<div class="btn-group btn-group-justified" ng-repeat="week in [0, 1, 2, 3, 4, 5]">
 							<div class="btn-group" ng-repeat="day in daysInWeek(currMonth, week, year)">
 								<button type="button" class="btn btn-default" ng-class="currDay == day? 'active' : ''"
-									ng-click="day < 1 || day > lastDay? '' : setDay(day);" ng-style="{'background-color':getActivityDayColor(year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + day).slice(-2))}">
+									ng-click="day < 1 || day > lastDay? '' : setDay(day, $index); " ng-style="{'background-color':getActivityDayColor(year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + day).slice(-2))}">
 									@{{ day < 1 || day > lastDay ? '&nbsp;' : day }}
 								</button>
 							</div>
 						</div>
-						<div ng-repeat="activity in activities|filter:{'happened_at':year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + currDay).slice(-2)}">
-							<b> @{{activity.subject.subject}} </b> <br/>
-							<p style="white-space: pre;"> @{{activity.activity}}</p>
+						<br/>
+						<div ng-repeat="schedule in schedules|filter:{day_of_week:currDayOfWeek}">
+							<h4>@{{schedule.subject.subject}} </h4>
+							<div ng-repeat="activity in schedule.subject.activities|filter:{happened_at: currentFullDate()}">
+								<div class="panel panel-info click-activity" ng-click="activity.edit = true;" ng-hide="activity.edit">
+									<div class="panel-body" style="white-space: pre-line;"> @{{activity.activity.trim()}} </div>
+								</div>
+								<textarea rows="3" class="form-control" ng-model="activity.activity" ng-if="activity.edit" focus-asap='true' ng-blur="activity.edit=false; saveActivity(activity);"></textarea>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="panel panel-info">
-					@foreach($days as $day)
-						@if(count(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get()))
-							<div class="panel-heading">
-								<h3 class="panel-title">{{ $day->toFormattedDateString() . '<small> ' . $day->format('D') . '</small>' }} </h3>
-							</div>
-							@foreach(Timeline::current()->schedules()->whereDayOfWeek($day->dayOfWeek)->get() as $schedule)
-								<div class="panel-body activity">
-									@if($schedule->subject->activities()->whereHappenedAt($day)->first())
-										{{ Form::label('activity', $schedule->subject->subject)}}
-										<div class="panel panel-info click-activity" ng-click="getActivity('{{$day}}', '{{$schedule->subject->id}}')">
-											<div class="panel-body">
-												{{nl2br($schedule->subject->activities()->whereHappenedAt($day)->first()->activity)}}
-											</div>
-										</div>
-										{{ Form::textarea('activity', $schedule->subject->activities()->whereHappenedAt($day)->first()->activity, ['class' => 'form-control activity-text', 'rows' => 5, 'placeholder' => 'Loading...', 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
-									@else
-										{{ Form::label('activity', $schedule->subject->subject)}}
-										<div class="panel panel-info click-activity">
-											<div class="panel-body">
-												&nbsp;
-											</div>
-										</div>
-										{{ Form::textarea('activity', null, ['class' => 'form-control activity-text', 'rows' => 5, 'ng-model' => 'edit', 'ng-blur' => "editActivity('$day', '".$schedule->subject->id."')"]) }}
-									@endif
-								</div>
-							@endforeach
-						@endif
-					@endforeach
 				</div>
 			</div>
 		</div>

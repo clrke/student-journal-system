@@ -9,7 +9,7 @@ class SchedulesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Timeline::current()->schedules()->with('subject')->get();
 	}
 
 
@@ -46,7 +46,7 @@ class SchedulesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		return Timeline::current()->schedules()->with('subject')->whereDayOfWeek($id)->get();
 	}
 
 
