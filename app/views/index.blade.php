@@ -55,7 +55,7 @@
 					<button type="button" class="btn btn-lg" ng-class="tab=='reviewer'? 'btn-primary' : 'btn-default'" ng-click="tab='reviewer'">Reviewer</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn btn-lg" ng-class="tab=='deadlines'? 'btn-primary' : 'btn-default'" ng-click="tab='deadlines'">Deadline</button>
+					<button type="button" class="btn btn-lg" ng-class="tab=='deadlines'? 'btn-primary' : 'btn-default'" ng-click="tab='deadlines'">Deadlines</button>
 				</div>
 			</div>
 		</div>
