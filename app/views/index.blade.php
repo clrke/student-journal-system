@@ -160,34 +160,36 @@
 							</h3>
 						</div>
 						<div class="panel-body" ng-show="type1 && !question.noData">
-							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="answer in question.allAnswers">
+							<div class="row">
+								<div class="form-group col-md-6" ng-repeat="answer in question.allAnswers">	
 									{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen', 'ng-show' => 'question.answers.length > 1'])}}
 									{{ Form::radio('answer_chosen', '', 0, ['ng-model' => '$parent.answer_chosen', 'ng-value' => 'answer.id', 'ng-show' => 'question.answers.length == 1'])}}
 									@{{ answer.answer }}
 									<b> @{{ answer.judge }} </b>
-								</li>
-							</ul> 
+								</div>
+							</div> 
 						</div>
 						<div class="panel-body" ng-show="type2 && !question.noData">
-							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="answer in question.answers">
-									<div ng-class="answer.status">
+							<div class="row">
+								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
+									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
+										<span class="input-group-addon" ng-if="question.answers.length > 1"> @{{ $index+1 }} </span>
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;']) }}
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first']) }}
 									</div>
-								</li>
-							</ul>
+								</div>
+							</div>
 						</div>
 						<div class="panel-body" ng-show="type3 && !question.noData">
-							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="answer in question.answers">
-									<div ng-class="answer.status">
+							<div class="row">
+								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
+									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
+										<span class="input-group-addon" ng-if="question.answers.length > 1"> @{{ $index+1 }} </span>
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
 									</div>
-								</li>
-							</ul>
+								</div>
+							</div>
 						</div>
 						<div class="panel-body" ng-show="question.noData">
 							<a class="form-control btn btn-danger" ng-show="question.noData" href="/questions/add"> Add New Questions </a>
