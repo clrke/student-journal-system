@@ -252,9 +252,12 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.checkAnswer = function (answer) {
 		if( ! answer.try || answer.try.toLowerCase() != answer.answer.substring(0, answer.try.length).toLowerCase())
 		{
-			answer.status = "has-error";
-			$scope.combo = 0;
-			$scope.refreshComboColor();
+			if(answer.status != "has-success")
+			{
+				answer.status = "has-error";
+				$scope.combo = 0;
+				$scope.refreshComboColor();
+			}
 			answer.try = answer.answer.substring(0, answer.try.length-1);
 		}
 		else if(answer.try.length == answer.answer.length)
