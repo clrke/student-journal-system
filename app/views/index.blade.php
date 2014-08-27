@@ -110,11 +110,11 @@
 							<div class="pull-right">
 								<button class="btn btn-primary"> Apply </button>
 							</div>
-							<div class="form-group">
+							<div class="form-group" ng-init="$parent.type = 2">
 								<label> Type: </label> 
-								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type1'])}} Multiple Choice
-								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type2'])}} Identification
-								{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'type3'])}} Hard Mode
+								{{ Form::radio('type', '1', 0, ['ng-model' => '$parent.type', 'ng-value' => '1'])}} Multiple Choice
+								{{ Form::radio('type', '2', 1, ['ng-model' => '$parent.type', 'ng-value' => '2'])}} Identification
+								{{ Form::radio('type', '3', 0, ['ng-model' => '$parent.type', 'ng-value' => '3'])}} Hard Mode
 							</div>
 							<div class="form-group input-group">
 								<span class="input-group-addon"> Subject: </span>
@@ -137,7 +137,7 @@
 								</center>
 							</h3>
 						</div>
-						<div class="panel-body" ng-show="type1 && !question.noData">
+						<div class="panel-body" ng-show="type === 1 && !question.noData">
 							<div class="row">
 								<div class="form-group col-md-6" ng-repeat="answer in question.allAnswers">	
 									{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen', 'ng-show' => 'question.answers.length > 1'])}}
@@ -147,7 +147,7 @@
 								</div>
 							</div> 
 						</div>
-						<div class="panel-body" ng-show="type2 && !question.noData">
+						<div class="panel-body" ng-show="type === 2 && !question.noData">
 							<div class="row">
 								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
@@ -158,7 +158,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="panel-body" ng-show="type3 && !question.noData">
+						<div class="panel-body" ng-show="type === 3 && !question.noData">
 							<div class="row">
 								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">

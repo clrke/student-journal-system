@@ -9,9 +9,6 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.quizLesson = '';
 	$scope.deadlines = [];
 	$scope.questionsQueue = [];
-	$scope.type1 = false;
-	$scope.type2 = true;
-	$scope.type3 = false;
 	$scope.combo = 0;
 	$scope.highscore = 0;
 	$scope.comboColor = "rgb(0, 208, 0)";
@@ -167,7 +164,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		$scope.correct = true;
 		correct = true;
 
-		if($scope.type1)
+		if($scope.type == 1)
 		{
 			if($scope.question.answers.length == 1)		
 				for (var i = $scope.question.allAnswers.length - 1; i >= 0; i--) {
@@ -193,7 +190,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			};
 		}
 
-		if($scope.type2 || $scope.type3)
+		if($scope.type == 2 || $scope.type == 3)
 		{
 			for (var i = $scope.question.answers.length - 1; i >= 0; i--) {
 				answer = $scope.question.answers[i];
@@ -213,7 +210,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			$scope.combo++;
 		else
 		{
-			if($scope.type3)
+			if($scope.type == 3)
 				$scope.combo = 1;
 			else
 				$scope.combo = 0;
