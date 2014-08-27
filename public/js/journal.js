@@ -284,7 +284,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 			if($scope.combo > $scope.highscore)
 				$scope.highscore = $scope.combo;
-			$scope.refreshQuestion();
+			$scope.popQuizSubmit();
 			$scope.refreshComboColor();
 		}
 	}
