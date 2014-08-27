@@ -9,8 +9,8 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.deadlines = [];
 	$scope.questionsQueue = [];
 	$scope.type1 = false;
-	$scope.type2 = false;
-	$scope.type3 = true;
+	$scope.type2 = true;
+	$scope.type3 = false;
 	$scope.combo = 0;
 	$scope.highscore = 0;
 	$scope.comboColor = "rgb(0, 208, 0)";
