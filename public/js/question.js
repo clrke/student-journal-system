@@ -1,4 +1,4 @@
-var JournalApp = angular.module('JournalApp', []);
+var JournalApp = angular.module('JournalApp', ['hexavigesimal']);
 
 JournalApp.controller('JournalController', ['$scope', '$http', function($scope, $http) {
 

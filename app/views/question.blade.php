@@ -1,8 +1,23 @@
 @extends('layouts.master')
 
 @section('content')
-	<div class="col-md-offset-3 col-md-6 panel panel-default">
+	<div class="col-md-offset-3 col-md-6 panel panel-default" ng-controller="HexavigesimalController as hexavigesimal">
 		<h1> Questions </h1>
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">
+					Settings
+				</h3>
+			</div>
+			<div class="panel-body">
+				<div class="form-group" ng-init="$parent.numbering = 2">
+					<label> Numbering: </label>
+					{{ Form::radio('numbering', '1', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
+					{{ Form::radio('numbering', '2', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
+				</div>
+			</div>
+		</div>
 
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -85,7 +100,7 @@
 			<div class="panel-body">
 				<ul class="list-group">
 					<li class="list-group-item" ng-repeat="answer in question.answers">
-						- @{{ answer.answer }}
+						@{{question.answers.length > 1? (numbering == 2? hexavigesimal.convert($index+1) : $index+1)+'. ' : '-'}} @{{ answer.answer }}
 					</li>
 				</ul>
 			</div>
@@ -97,4 +112,5 @@
 @section('scripts')
 	{{ HTML::script('/js/angular.js')}}
 	{{ HTML::script('/js/question.js')}}
+	{{ HTML::script('/js/helpers/hexavigesimal.js')}}
 @stop
