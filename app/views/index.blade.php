@@ -124,10 +124,10 @@
 								<span class="input-group-addon"> Lesson(s): </span>
 								<input type="text" class="form-control" ng-model="quizLesson">
 							</div>
-							<div class="form-group" ng-init="$parent.numbering = 2">
+							<div class="form-group" ng-init="$parent.numbering = 1">
 								<label> Numbering: </label>
-								{{ Form::radio('numbering', '1', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
-								{{ Form::radio('numbering', '2', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
+								{{ Form::radio('numbering', '1', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
+								{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
 							</div>
 						</form>
 					</div>
