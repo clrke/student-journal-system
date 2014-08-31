@@ -124,10 +124,18 @@
 								<span class="input-group-addon"> Lesson(s): </span>
 								<input type="text" class="form-control" ng-model="quizLesson">
 							</div>
-							<div class="form-group" ng-init="$parent.numbering = 1">
-								<label> Numbering: </label>
-								{{ Form::radio('numbering', '1', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
-								{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"> Batch Enumeration: </span>
+										<input type="number" class="form-control" ng-model="batch_enum" placeholder="No" min="1">
+									</div>
+								</div>
+								<div class="form-group col-md-6" ng-init="$parent.numbering = 1">
+									<label> Numbering: </label>
+									{{ Form::radio('numbering', '1', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
+									{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
+								</div>
 							</div>
 						</form>
 					</div>
@@ -154,7 +162,7 @@
 						</div>
 						<div class="panel-body" ng-show="type === 2 && !question.noData">
 							<div class="row">
-								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
+								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers | filter: {included_in_batch: true}">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
 										<span class="input-group-addon" ng-if="question.answers.length > 1"> 
 											@{{ numbering == 2? hexavigesimal.convert(question.answers.indexOf(answer)+1) : question.answers.indexOf(answer)+1 }}
@@ -167,7 +175,7 @@
 						</div>
 						<div class="panel-body" ng-show="type === 3 && !question.noData">
 							<div class="row">
-								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
+								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers | filter: {included_in_batch: true}">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
 										<span class="input-group-addon" ng-if="question.answers.length > 1">
 											@{{ numbering == 2? hexavigesimal.convert(question.answers.indexOf(answer)+1) : question.answers.indexOf(answer)+1 }} 

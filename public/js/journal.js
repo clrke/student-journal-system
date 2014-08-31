@@ -14,6 +14,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.comboColor = "rgb(0, 208, 0)";
 	$scope.tab = 'activities';
 	$scope.answer_chosen = 1;
+	$scope.batch_enum = null;
 
 	$scope.currDayOfWeek = new Date().getDay();
 	$scope.currDay = new Date().getDate();
@@ -195,14 +196,17 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			for (var i = $scope.question.answers.length - 1; i >= 0; i--) {
 				answer = $scope.question.answers[i];
 
-				if( ! answer.try || answer.try.toLowerCase() != answer.answer.toLowerCase())
+				if(answer.included_in_batch)
 				{
-					answer.status = "has-error";
-					correct = false;
-				}
-				else answer.status = "has-success";
+					if( ! answer.try || answer.try.toLowerCase() != answer.answer.toLowerCase())
+					{
+						answer.status = "has-error";
+						correct = false;
+					}
+					else answer.status = "has-success";
 
-				answer.try = answer.answer;
+					answer.try = answer.answer;
+				}
 			}
 		}
 
@@ -216,6 +220,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				$scope.combo = 0;
 			$scope.questionsQueue.push($scope.question);
 		}
+
+		if($scope.batch_enum)
+			$scope.questionsQueue.push($scope.question);
 
 		if($scope.combo > $scope.highscore)
 			$scope.highscore = $scope.combo;
@@ -266,6 +273,20 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			question.allAnswers[i].chosen = null;
 		};
 
+		// batch_enum
+		for (var i = 0; i < question.answers.length; i++) {
+	 		question.answers[i].included_in_batch = true;
+		}; 
+
+		if($scope.batch_enum)
+		{
+			var random = Math.floor(Math.random() * (question.answers.length-$scope.batch_enum+1));
+
+			for (var i = 0; i < question.answers.length; i++) {
+			 	if( ! (i >= random && i < random+$scope.batch_enum))
+			 		question.answers[i].included_in_batch = false;
+			 };
+		}
 		$scope.question = question;
 		
 		$scope.correct = false;
