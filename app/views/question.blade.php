@@ -38,7 +38,7 @@
 									<span class="input-group-addon" ng-if="newQuestion.answers.length > 1"> 
 										@{{ numbering == 2? hexavigesimal.convert($index+1) : $index+1 }} 
 									</span>
-									<input type="text" class="form-control" ng-model="answer.answer">
+									<input type="text" class="form-control" ng-model="answer.answer" required>
 									<span class="btn btn-danger input-group-addon" ng-if=" ! $first" ng-click="deleteAnswer(newQuestion, answer)">
 										<i class="fa fa-minus"> </i>
 									</span>
