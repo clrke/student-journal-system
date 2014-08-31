@@ -196,17 +196,14 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			for (var i = $scope.question.answers.length - 1; i >= 0; i--) {
 				answer = $scope.question.answers[i];
 
-				if(answer.included_in_batch)
+				if( ! answer.try || answer.try.toLowerCase() != answer.answer.toLowerCase())
 				{
-					if( ! answer.try || answer.try.toLowerCase() != answer.answer.toLowerCase())
-					{
-						answer.status = "has-error";
-						correct = false;
-					}
-					else answer.status = "has-success";
-
-					answer.try = answer.answer;
+					answer.status = "has-error";
+					correct = false;
 				}
+				else answer.status = "has-success";
+
+				answer.try = answer.answer;
 			}
 		}
 
@@ -220,9 +217,6 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				$scope.combo = 0;
 			$scope.questionsQueue.push($scope.question);
 		}
-
-		if($scope.batch_enum)
-			$scope.questionsQueue.push($scope.question);
 
 		if($scope.combo > $scope.highscore)
 			$scope.highscore = $scope.combo;
@@ -243,6 +237,32 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 						question.lesson.indexOf($scope.quizLesson) > -1) &&
 						$scope.quizSubject == question.subject_id.toString();
 			});
+
+			for (var i = 0; i < $scope.questionsQueue.length; i++) {
+				question = $scope.questionsQueue[i];
+
+				for (var j = 0; j < question.answers.length; j++) {
+					question.answers[j].id = j+1;
+				}
+			}
+
+			if ($scope.batch_enum) {
+				var batch_enum_questions = [];
+				for (var i = 0; i < $scope.questionsQueue.length; i++) {
+					question = $scope.questionsQueue.shift();
+
+					if(question.answers.length <= $scope.batch_enum)
+						batch_enum_questions.push({question:question.question, lesson:question.lesson, answers:question.answers, sabotages: question.sabotages});
+					else for (var j = 0; j < question.answers.length-$scope.batch_enum; j++) {
+						var answers = [];
+						for (var k = 0; k < $scope.batch_enum; k++)
+							answers.push(question.answers[j+k]);
+						
+						batch_enum_questions.push({question:question.question, lesson:question.lesson, answers:answers, sabotages: question.sabotages});
+					}
+				}
+				$scope.questionsQueue = batch_enum_questions;
+			}
 
 			if($scope.questionsQueue.length == 0)
 				$scope.questionsQueue = [{question:'No data matched by criteria', lesson:'', answers:[], sabotages:[], noData: true}];
@@ -273,20 +293,6 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			question.allAnswers[i].chosen = null;
 		};
 
-		// batch_enum
-		for (var i = 0; i < question.answers.length; i++) {
-	 		question.answers[i].included_in_batch = true;
-		}; 
-
-		if($scope.batch_enum)
-		{
-			var random = Math.floor(Math.random() * (question.answers.length-$scope.batch_enum+1));
-
-			for (var i = 0; i < question.answers.length; i++) {
-			 	if( ! (i >= random && i < random+$scope.batch_enum))
-			 		question.answers[i].included_in_batch = false;
-			 };
-		}
 		$scope.question = question;
 		
 		$scope.correct = false;
