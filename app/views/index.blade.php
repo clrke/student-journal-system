@@ -124,11 +124,16 @@
 								<span class="input-group-addon"> Lesson(s): </span>
 								<input type="text" class="form-control" ng-model="quizLesson">
 							</div>
+							<div class="form-group" ng-init="$parent.numbering = 2">
+								<label> Numbering: </label>
+								{{ Form::radio('numbering', '1', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
+								{{ Form::radio('numbering', '2', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
+							</div>
 						</form>
 					</div>
 				</div>
 				<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
-					<div ng-class="question.noData? 'panel panel-danger' : 'panel panel-primary'">
+					<div ng-class="question.noData? 'panel panel-danger' : 'panel panel-primary'" ng-controller="HexavigesimalController as hexavigesimal">
 						<div class="panel-heading">
 							<h3 class="panel-title">
 								<b ng-hide="quizLesson !== '' || question.lesson === ''"> @{{ question.lesson }}: </b> @{{ question.question }}
@@ -151,7 +156,9 @@
 							<div class="row">
 								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
-										<span class="input-group-addon" ng-if="question.answers.length > 1"> @{{ $index+1 }} </span>
+										<span class="input-group-addon" ng-if="question.answers.length > 1"> 
+											@{{ numbering == 2? hexavigesimal.convert($index+1) : $index+1 }} 
+										</span>
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;']) }}
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first']) }}
 									</div>
@@ -162,7 +169,9 @@
 							<div class="row">
 								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
-										<span class="input-group-addon" ng-if="question.answers.length > 1"> @{{ $index+1 }} </span>
+										<span class="input-group-addon" ng-if="question.answers.length > 1">
+											@{{ numbering == 2? hexavigesimal.convert($index+1) : $index+1 }} 
+										</span>
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
 									</div>
@@ -269,4 +278,5 @@
 	{{ HTML::script('/js/main_jquery.js')}}
 	{{ HTML::script('/js/angular.js')}}
 	{{ HTML::script('/js/journal.js')}}
+	{{ HTML::script('/js/helpers/hexavigesimal.js')}}
 @stop
