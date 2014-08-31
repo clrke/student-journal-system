@@ -157,7 +157,7 @@
 								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
 										<span class="input-group-addon" ng-if="question.answers.length > 1"> 
-											@{{ numbering == 2? hexavigesimal.convert($index+1) : $index+1 }} 
+											@{{ numbering == 2? hexavigesimal.convert(question.answers.indexOf(answer)+1) : question.answers.indexOf(answer)+1 }}
 										</span>
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;']) }}
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first']) }}
@@ -170,7 +170,7 @@
 								<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 									<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
 										<span class="input-group-addon" ng-if="question.answers.length > 1">
-											@{{ numbering == 2? hexavigesimal.convert($index+1) : $index+1 }} 
+											@{{ numbering == 2? hexavigesimal.convert(question.answers.indexOf(answer)+1) : question.answers.indexOf(answer)+1 }} 
 										</span>
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
 										{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
