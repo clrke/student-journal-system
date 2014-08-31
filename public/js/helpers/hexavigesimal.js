@@ -8,7 +8,7 @@
 		    while (decimal > 0)
 		    {
 		        var remainder = (decimal - 1) % 26;
-		        converted = String.fromCharCode(remainder + 65) + converted;
+		        converted = String.fromCharCode(remainder + 97) + converted;
 		        decimal = Math.floor((decimal - remainder) / 26);
 		    }
 
