@@ -114,7 +114,7 @@
 								<label> Type: </label> 
 								{{ Form::radio('type', '1', 0, ['ng-model' => '$parent.type', 'ng-value' => '1'])}} Multiple Choice
 								{{ Form::radio('type', '2', 1, ['ng-model' => '$parent.type', 'ng-value' => '2'])}} Identification
-								{{ Form::radio('type', '3', 0, ['ng-model' => '$parent.type', 'ng-value' => '3'])}} Hard Mode
+								{{ Form::radio('type', '3', 0, ['ng-model' => '$parent.type', 'ng-value' => '3'])}} Hardcore
 							</div>
 							<div class="form-group input-group">
 								<span class="input-group-addon"> Subject: </span>
