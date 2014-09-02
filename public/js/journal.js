@@ -246,6 +246,24 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				}
 			}
 
+			if( $scope.enum_filter) {
+				for (var i = 0; i < $scope.questionsQueue.length; i++) {
+					question = $scope.questionsQueue.shift();
+					
+					var answers = [];
+
+					for (var j = 0; j < question.answers.length; j++) {
+						var answer = question.answers[j];
+						if(answer.answer.indexOf($scope.enum_filter) > -1)
+							answers.push(answer);
+					}
+
+					if(answers.length)
+						$scope.questionsQueue.push({question:question.question, lesson:question.lesson, answers:answers, sabotages: question.sabotages});
+					
+				}
+			}
+
 			if ($scope.batch_enum) {
 				var batch_enum_questions = [];
 				for (var i = 0; i < $scope.questionsQueue.length; i++) {

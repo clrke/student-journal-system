@@ -131,11 +131,17 @@
 										<input type="number" class="form-control" ng-model="batch_enum" placeholder="No" min="1">
 									</div>
 								</div>
-								<div class="form-group col-md-6" ng-init="$parent.numbering = 1">
-									<label> Numbering: </label>
-									{{ Form::radio('numbering', '1', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
-									{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
+								<div class="col-md-6">
+									<div class="form-group input-group">
+										<span class="input-group-addon"> Enumeration Filter </span>
+										<input type="text" class="form-control" ng-model="enum_filter" placeholder="None">
+									</div>
 								</div>
+							</div>
+							<div class="form-group col-md-6" ng-init="$parent.numbering = 1">
+								<label> Numbering </label>
+								{{ Form::radio('numbering', '1', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
+								{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
 							</div>
 						</form>
 					</div>
