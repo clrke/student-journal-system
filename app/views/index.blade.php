@@ -127,14 +127,14 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group input-group">
-										<span class="input-group-addon"> Batch Enumeration </span>
-										<input type="number" class="form-control" ng-model="batch_enum" placeholder="No" min="1">
+										<span class="input-group-addon"> Enumeration Filter </span>
+										<input type="text" class="form-control" ng-model="enum_filter" placeholder="None">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group input-group">
-										<span class="input-group-addon"> Enumeration Filter </span>
-										<input type="text" class="form-control" ng-model="enum_filter" placeholder="None">
+										<span class="input-group-addon"> Batch Enumeration </span>
+										<input type="number" class="form-control" ng-model="batch_enum" placeholder="No" min="1">
 									</div>
 								</div>
 							</div>

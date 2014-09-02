@@ -233,8 +233,8 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			$scope.questionsQueue = $scope.questions.slice(0);
 
 			$scope.questionsQueue = _.filter($scope.questionsQueue, function(question) {
-				return (question.question.indexOf($scope.quizLesson) > -1 || 
-						question.lesson.indexOf($scope.quizLesson) > -1) &&
+				return (question.question.toLowerCase().indexOf($scope.quizLesson.toLowerCase()) > -1 || 
+						question.lesson.toLowerCase().indexOf($scope.quizLesson.toLowerCase()) > -1) &&
 						$scope.quizSubject == question.subject_id.toString();
 			});
 
@@ -248,30 +248,28 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 			if( $scope.enum_filter) {
 				for (var i = 0; i < $scope.questionsQueue.length; i++) {
-					question = $scope.questionsQueue.shift();
+					var question = $scope.questionsQueue.shift();
 					
 					var answers = [];
 
 					for (var j = 0; j < question.answers.length; j++) {
 						var answer = question.answers[j];
-						if(answer.answer.indexOf($scope.enum_filter) > -1)
+						if(answer.answer.toLowerCase().indexOf($scope.enum_filter.toLowerCase()) > -1)
 							answers.push(answer);
 					}
 
 					if(answers.length)
 						$scope.questionsQueue.push({question:question.question, lesson:question.lesson, answers:answers, sabotages: question.sabotages});
-					
 				}
 			}
 
 			if ($scope.batch_enum) {
 				var batch_enum_questions = [];
-				for (var i = 0; i < $scope.questionsQueue.length; i++) {
-					question = $scope.questionsQueue.shift();
-
+				while ( $scope.questionsQueue.length) {
+					var question = $scope.questionsQueue.shift();
 					if(question.answers.length <= $scope.batch_enum)
 						batch_enum_questions.push({question:question.question, lesson:question.lesson, answers:question.answers, sabotages: question.sabotages});
-					else for (var j = 0; j < question.answers.length-$scope.batch_enum; j++) {
+					else for (var j = 0; j < question.answers.length+1-$scope.batch_enum; j++) {
 						var answers = [];
 						for (var k = 0; k < $scope.batch_enum; k++)
 							answers.push(question.answers[j+k]);
