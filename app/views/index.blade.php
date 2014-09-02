@@ -117,17 +117,17 @@
 								{{ Form::radio('type', '3', 0, ['ng-model' => '$parent.type', 'ng-value' => '3'])}} Hardcore
 							</div>
 							<div class="form-group input-group">
-								<span class="input-group-addon"> Subject: </span>
+								<span class="input-group-addon"> Subject </span>
 								{{ Form::select('name', $subjectsList, 0, ['class' => 'form-control', 'ng-model' => 'quizSubject'])}}
 							</div>
 							<div class="form-group input-group">
-								<span class="input-group-addon"> Lesson(s): </span>
+								<span class="input-group-addon"> Lesson(s) </span>
 								<input type="text" class="form-control" ng-model="quizLesson">
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group input-group">
-										<span class="input-group-addon"> Batch Enumeration: </span>
+										<span class="input-group-addon"> Batch Enumeration </span>
 										<input type="number" class="form-control" ng-model="batch_enum" placeholder="No" min="1">
 									</div>
 								</div>
