@@ -12,7 +12,13 @@
 			@yield('content')
 		</div>
 		<div ng-hide="currLoad == MAX_LOAD">
-			<h1> Loading... @{{ currLoad / MAX_LOAD * 100 | number : 2}}%
+			<br/>
+			<br/>
+			<div class="progress">
+				<div class="progress-bar progress-bar-success progress-bar-striped active"  role="progressbar" aria-valuenow="@{{currLoad / MAX_LOAD * 100}}" aria-valuemin="0" aria-valuemax="100" style="width: @{{currLoad / MAX_LOAD * 100}}%">
+					<span class="sr-only">@{{currLoad / MAX_LOAD * 100}}% Complete</span>
+				</div>
+			</div>
 		</div>
 		{{ HTML::script('/js/jquery.min.js')}}
 		{{ HTML::script('/js/underscore.min.js')}}
