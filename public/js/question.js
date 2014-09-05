@@ -9,10 +9,14 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.newQuestion.lesson = "";
 	$scope.newQuestion.answers = [{}];
 	$scope.newQuestion.sabotages = [{}];
+	
+	$scope.currLoad = 0;
+	$scope.MAX_LOAD = 1;
 
 	$http.get('/questions').success(function(questions)
 	{
 		$scope.questions = questions;
+		$scope.currLoad++;
 	});
 
 	$scope.addAnswer = function()
