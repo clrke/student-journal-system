@@ -16,6 +16,6 @@ class Deadline extends Eloquent
 
 	public function getDeadlineAttribute($value)
 	{
-		return ['original' => (new Carbon\Carbon($value))->toFormattedDateString(), 'diffForHumans' => (new Carbon\Carbon($value))->diffForHumans()];
+		return ['original' => $value, 'formatted' => (new Carbon\Carbon($value))->toFormattedDateString(), 'diffForHumans' => (new Carbon\Carbon($value))->diffForHumans()];
 	}
 }

@@ -223,7 +223,7 @@
 										<a ng-click="deleteDeadline(deadline.id)" class='x'> x </a>
 									</div>
 									@{{deadline.subject.subject}}<br/>
-									<small>@{{ deadline.deadline.original }} (@{{ deadline.deadline.diffForHumans }})</small>
+									<small>@{{ deadline.deadline.formatted }} (@{{ deadline.deadline.diffForHumans }})</small>
 								</h1>
 							</div>
 							<div class="panel-body">	
