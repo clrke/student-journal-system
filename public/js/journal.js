@@ -27,18 +27,24 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.activityDays = [];
 	$scope.maxActivity = 0;
 
+	$scope.currLoad = 0;
+	$scope.MAX_LOAD = 7;
+
 	function refresh()
 	{
 		$http.get('/quotes').success(function(quotes) {
 			$scope.quoteList = $scope.shuffleArray(quotes);
+			$scope.currLoad++;
 		});
 
 		$http.get('subjects').success(function(subjects) {
 			$scope.subjects = subjects;
+			$scope.currLoad++;
 		});
 
 		$http.get('schedules').success(function(schedules) {
 			$scope.schedules = schedules;
+			$scope.currLoad++;
 		});
 
 		$http.get('/activities').success(function (activities) {
@@ -64,6 +70,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				if($scope.maxActivity < $scope.activityDays[i].chars)
 					$scope.maxActivity = $scope.activityDays[i].chars;
 			};
+			$scope.currLoad++;
 		});
 
 		$http.get('/questions').success(function(questions) {
@@ -78,14 +85,17 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			}
 
 			$scope.refreshQuestion();
+			$scope.currLoad++;
 		});
 
 		$http.get('deadlines').success(function(deadlines) {
 			$scope.deadlines = deadlines;
+			$scope.currLoad++;
 		});
 
 		$http.get('timelines/current/id').success(function(timeline_id) {
 			$scope.timeline_id = timeline_id;
+			$scope.currLoad++;
 		});
 	}
 

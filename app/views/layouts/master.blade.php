@@ -8,7 +8,12 @@
 	</head>
 
 	<body class="container" ng-controller="JournalController">
-		@yield('content')
+		<div ng-show="currLoad == MAX_LOAD">
+			@yield('content')
+		</div>
+		<div ng-hide="currLoad == MAX_LOAD">
+			<h1> Loading... @{{ currLoad / MAX_LOAD | number : 2}}%
+		</div>
 		{{ HTML::script('/js/jquery.min.js')}}
 		{{ HTML::script('/js/underscore.min.js')}}
 		{{ HTML::script('/js/bootstrap.min.js')}}
