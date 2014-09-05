@@ -1,8 +1,6 @@
 @extends('layouts.master')
 
 @section('content')
-	<br/>
-	<br/>
 	<div class="col-md-12 panel panel-default" style="margin: 0px">
 		<h3> 
 			<button class="btn btn-default pull-right" ng-click="shuffleArray(quoteList);">Refresh</button> 

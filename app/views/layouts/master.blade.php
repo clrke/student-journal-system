@@ -8,12 +8,12 @@
 	</head>
 
 	<body class="container" ng-controller="JournalController">
+		<br/>
+		<br/>
 		<div ng-show="currLoad == MAX_LOAD">
 			@yield('content')
 		</div>
 		<div ng-hide="currLoad == MAX_LOAD">
-			<br/>
-			<br/>
 			<div class="progress">
 				<div class="progress-bar progress-bar-success progress-bar-striped active"  role="progressbar" aria-valuenow="@{{currLoad / MAX_LOAD * 100}}" aria-valuemin="0" aria-valuemax="100" style="width: @{{currLoad / MAX_LOAD * 100}}%">
 					<span class="sr-only">@{{currLoad / MAX_LOAD * 100}}% Complete</span>
