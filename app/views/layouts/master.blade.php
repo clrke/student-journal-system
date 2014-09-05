@@ -12,7 +12,7 @@
 			@yield('content')
 		</div>
 		<div ng-hide="currLoad == MAX_LOAD">
-			<h1> Loading... @{{ currLoad / MAX_LOAD | number : 2}}%
+			<h1> Loading... @{{ currLoad / MAX_LOAD * 100 | number : 2}}%
 		</div>
 		{{ HTML::script('/js/jquery.min.js')}}
 		{{ HTML::script('/js/underscore.min.js')}}
