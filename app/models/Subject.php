@@ -6,7 +6,7 @@ class Subject extends Eloquent
 
 	public function timeline()
 	{
-		return $this->belongsTo('Timeline', 'timeline_id');
+		return $this->belongsTo('Timeline');
 	}
 
 	public function schedules()
