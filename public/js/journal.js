@@ -16,6 +16,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.answer_chosen = 1;
 	$scope.enum_filter = '';
 	$scope.batch_enum = '';
+	$scope.shuffleQuestions = 0;
 
 	$scope.currDayOfWeek = new Date().getDay();
 	$scope.currDay = new Date().getDate();
@@ -300,7 +301,15 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			if($scope.questionsQueue.length == 0)
 				$scope.questionsQueue = [{question:'No data matched by criteria', lesson:'', answers:[], sabotages:[], noData: true}];
 			
-			$scope.questionsQueue = $scope.shuffleArray($scope.questionsQueue);
+			if($scope.shuffleQuestions)
+				$scope.questionsQueue = $scope.shuffleArray($scope.questionsQueue);
+			else
+			{
+				var random = Math.random() * $scope.questionsQueue.length;
+				for (var i = 0; i < random; i++) {
+					$scope.questionsQueue.push($scope.questionsQueue.shift());
+				};
+			}
 			$scope.questionsCount = $scope.questionsQueue.length;
 			$scope.itemsCount = 0;
 

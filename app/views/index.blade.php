@@ -141,6 +141,9 @@
 								{{ Form::radio('numbering', '1', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
 								{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
 							</div>
+							<div class="form-group col-md-6" ng-init="$parent.numbering = 1">
+								<label> Shuffle Questions? </label> {{ Form::checkbox('shuffleQuestions', '1', 1, ['ng-model' => 'shuffleQuestions']) }} 
+							</div>
 							<div class="form-group col-md-6">
 								<b>@{{ questionsCount }}</b> question(s) | <b>@{{ itemsCount }}</b> item(s)
 							</div>
