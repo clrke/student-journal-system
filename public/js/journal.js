@@ -14,7 +14,8 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.comboColor = "rgb(0, 208, 0)";
 	$scope.tab = 'activities';
 	$scope.answer_chosen = 1;
-	$scope.batch_enum = null;
+	$scope.enum_filter = '';
+	$scope.batch_enum = '';
 
 	$scope.currDayOfWeek = new Date().getDay();
 	$scope.currDay = new Date().getDate();
@@ -260,12 +261,15 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 			}
 
 			if( $scope.enum_filter) {
-				for (var i = 0; i < $scope.questionsQueue.length; i++) {
+				var length = $scope.questionsQueue.length;
+				for (var i = 0; i < length; i++) {
 					var question = $scope.questionsQueue.shift();
 					
 					var answers = [];
 
-					for (var j = 0; j < question.answers.length; j++) {
+					if(question.question.toLowerCase().indexOf($scope.enum_filter.toLowerCase()) > -1)
+						answers = question.answers;
+					else for (var j = 0; j < question.answers.length; j++) {
 						var answer = question.answers[j];
 						if(answer.answer.toLowerCase().indexOf($scope.enum_filter.toLowerCase()) > -1)
 							answers.push(answer);
