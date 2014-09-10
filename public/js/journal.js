@@ -30,6 +30,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.currLoad = 0;
 	$scope.MAX_LOAD = 7;
 
+	$scope.questionsCount = 0;
+	$scope.itemsCount = 0;	
+
 	function refresh()
 	{
 		$http.get('/quotes').success(function(quotes) {
@@ -294,6 +297,12 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				$scope.questionsQueue = [{question:'No data matched by criteria', lesson:'', answers:[], sabotages:[], noData: true}];
 			
 			$scope.questionsQueue = $scope.shuffleArray($scope.questionsQueue);
+			$scope.questionsCount = $scope.questionsQueue.length;
+			$scope.itemsCount = 0;
+
+			for (var i = 0; i < $scope.questionsQueue.length; i++) {
+				$scope.itemsCount += $scope.questionsQueue[i].answers.length;
+			};
 
 			question = $scope.questionsQueue.shift();
 		}

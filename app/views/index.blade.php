@@ -141,6 +141,9 @@
 								{{ Form::radio('numbering', '1', 1, ['ng-model' => '$parent.numbering', 'ng-value' => '1'])}} Decimal
 								{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
 							</div>
+							<div class="form-group col-md-6">
+								<b>@{{ questionsCount }}</b> question(s) | <b>@{{ itemsCount }}</b> item(s)
+							</div>
 						</form>
 					</div>
 				</div>
@@ -197,6 +200,7 @@
 
 					<button class="btn btn-primary" ng-hide="correct"> Submit </button>
 					<button class="btn btn-default" ng-show="correct"> Refresh </button>
+					<b> @{{ questionsQueue.length + (correct? 0 : 1) }} question(s) left </b>
 					<table class="pull-right">
 						<tr>
 							<td ng-style="{'color':comboColor}"><b> Combo: </b></td>
