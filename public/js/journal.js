@@ -59,10 +59,10 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 			for (var i = 0; i < activities.length; i++) {
 				var found = false;
-				for (var i = 0; i < $scope.activityDays.length; i++) {
-					if($scope.activityDays[i].day == activities[i].day)
+				for (var j = 0; j < $scope.activityDays.length; j++) {
+					if($scope.activityDays[j].day == activities[i].happened_at)
 					{
-						$scope.activityDays[i].chars += activities[i].activity.length;
+						$scope.activityDays[j].chars += activities[i].activity.length;
 						found = true;
 						break;
 					}
