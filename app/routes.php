@@ -107,7 +107,18 @@ Route::resource('schedules', 'SchedulesController');
 
 Route::get('diffForHumans/{date}', function($date)
 {
-	return (new Carbon($date))->diffForHumans();
+	$date = new Carbon($date);
+
+	$diffInHours = $date->diffInHours(Carbon::now(), false);
+	
+	if($diffInHours <= 24)
+	{
+		if($diffInHours >= 0)
+			return 'Today';
+		else
+			return $date->addDay(1)->diffForHumans();
+	}
+	else return $date->diffForHumans();
 });
 
 Route::get('deadlines', function()
