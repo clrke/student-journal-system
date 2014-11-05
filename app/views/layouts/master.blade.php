@@ -1,6 +1,7 @@
 <html ng-app="JournalApp">
 	<head>
 		<title> Student Journal System </title>
+		<link rel="shortcut icon" href="{{ asset('opms.ico') }}">
 		{{ HTML::style('/css/bootstrap.min.css') }}
   		{{ HTML::style('/css/journal.css') }}
   		{{ HTML::style('/css/grg.css')}}
