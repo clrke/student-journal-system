@@ -44,12 +44,18 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 				$scope.quoteList = $scope.shuffleArray(quotes);
 			});
 
+			$http.get('timelines/current/id').success(function(timeline_id) {
+				$scope.timeline_id = timeline_id;
+				$scope.setTimeline = timeline_id;
+			});
+
 			$http.get('subjects').success(function(subjects) {
 				$scope.subjects = subjects;
 			});
 
 			return;
 		}
+		
 		$http.get('/quotes.json').success(function(quotes) {
 			$scope.quoteList = $scope.shuffleArray(quotes);
 			$scope.currLoad++;
