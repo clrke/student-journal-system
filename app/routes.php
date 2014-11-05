@@ -63,6 +63,13 @@ Route::get('timelines', function()
 	return Timeline::all();
 });
 
+Route::post('timelines', function()
+{
+	Timeline::whereFlag(1)->update(['flag' => 0]);
+	Timeline::create(Input::all());
+	return Redirect::to('/debug');
+});
+
 Route::get('timelines/current/id', function()
 {
 	return Timeline::current()->id;

@@ -11,8 +11,20 @@
 	<div class="col-md-4 panel panel-default">
 		<h1> Current Timeline</h1>
 		<form ng-submit="changeTimeline()" class="form">
-			{{ Form::select('timeline', $timelines, Timeline::current(), ['class' => 'form-control'])}}
+			{{ Form::select('timeline', $timelines, Timeline::current()->id, ['class' => 'form-control'])}}
 		</form>
+		<h1> Add another Timeline </h1>
+		{{ Form::open(['url' => 'timelines'])}}
+			<div class="input-group">
+				{{ Form::text('timeline', null, ['class' => 'form-control']) }}
+				<div class="input-group-btn">
+					{{ Form::button('Add', ['class' =>'btn btn-primary', 'type' => 'submit'])}}
+				</div>
+			</div>
+			{{ Form::input('date', 'start', null, ['class' => 'form-control'])}}
+			{{ Form::input('date', 'end', null, ['class' => 'form-control'])}}
+			{{ Form::hidden('flag', 1)}}
+		{{ Form::close() }}
 		<?php $first = true; ?>
 		@foreach($daysOfWeek as $key => $day)
 			@if( $debug || count(Timeline::current()->schedules()->whereDayOfWeek($key)->get()))
