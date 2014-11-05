@@ -40,7 +40,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		if(typeof(debug) != 'undefined') {
 			$scope.currLoad = $scope.MAX_LOAD;
 		
-			$http.get('/quotes').success(function(quotes) {
+			$http.get('/quotes.json').success(function(quotes) {
 				$scope.quoteList = $scope.shuffleArray(quotes);
 			});
 
@@ -50,7 +50,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 			return;
 		}
-		$http.get('/quotes').success(function(quotes) {
+		$http.get('/quotes.json').success(function(quotes) {
 			$scope.quoteList = $scope.shuffleArray(quotes);
 			$scope.currLoad++;
 		});
