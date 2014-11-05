@@ -15,23 +15,18 @@
 	<body class="container" ng-controller="JournalController">
 		<br/>
 		<br/>
-		<div ng-show="currLoad == MAX_LOAD">
+		<div ng-if="loadingComplete">
 			@yield('content')
 		</div>
-		<div ng-hide="currLoad == MAX_LOAD" class="col-md-offset-3 col-md-6">
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h3 class="panel-title">Loading...</h3>
-				</div>
-				<div class="panel-body">
-					<div class="progress">
-						<div class="progress-bar progress-bar-info progress-bar-striped active"  role="progressbar" aria-valuenow="@{{currLoad / MAX_LOAD * 100}}" aria-valuemin="0" aria-valuemax="100" style="width: @{{currLoad / MAX_LOAD * 100}}%">
-							<span class="sr-only">@{{currLoad / MAX_LOAD * 100}}% Complete</span>
-						</div>
+		<div ng-if=" ! loadingComplete" class="vertical-center">
+			<div class="container">
+				<div class="progress">
+					<div class="progress-bar progress-bar-info"  role="progressbar" aria-valuenow="@{{initProgress}}" aria-valuemin="0" aria-valuemax="100" style="width: @{{initProgress}}%">
+						<span class="sr-only">@{{currLoad / MAX_LOAD * 100}}% Complete</span>
 					</div>
 				</div>
+				<h1> <center> Initializing the Student Journal System... </center> </h1>
 			</div>
 		</div>
-		</script>
 	</body>
 </html>

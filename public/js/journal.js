@@ -1,6 +1,6 @@
 var JournalApp = angular.module('JournalApp', ['hexavigesimal']);
 
-JournalApp.controller('JournalController', ['$scope', '$http', function($scope, $http) {
+JournalApp.controller('JournalController', ['$scope', '$http', '$timeout', '$interval', function($scope, $http, $timeout, $interval) {
 	
 	$scope.subjects = [];
 	$scope.schedules = [];
@@ -34,6 +34,9 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	$scope.questionsCount = 0;
 	$scope.itemsCount = 0;	
+
+	$scope.initProgress = 0;
+	$scope.loadingComplete = false;
 
 	function refresh()
 	{
@@ -126,6 +129,19 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 	refresh();
 	
+	$scope.$watch('currLoad', function(newValue, oldValue) {
+		$scope.initProgress = $scope.currLoad / $scope.MAX_LOAD * 100;
+		
+		$interval(function () {
+			$scope.initProgress += 1;
+		}, 100, 20);
+
+		if($scope.currLoad == $scope.MAX_LOAD)
+			$timeout(function () {
+				$scope.loadingComplete = true;
+			}, 1000);
+	});
+
 	$scope.getActivityDayColor = function (activityDay) {
 		for (var i = 0; i < $scope.activityDays.length; i++) {
 			if(activityDay == $scope.activityDays[i].day)
