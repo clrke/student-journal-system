@@ -31,12 +31,12 @@ JournalApp.controller('JournalController', ['$scope', '$http', '$timeout', '$int
 
 	$scope.currLoad = 0;
 	$scope.MAX_LOAD = 7;
+	
+	$scope.initProgress = 0;
+	$scope.loadingComplete = false;
 
 	$scope.questionsCount = 0;
 	$scope.itemsCount = 0;	
-
-	$scope.initProgress = 0;
-	$scope.loadingComplete = false;
 
 	function refresh()
 	{

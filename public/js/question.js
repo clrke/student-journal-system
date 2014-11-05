@@ -1,6 +1,6 @@
 var JournalApp = angular.module('JournalApp', ['hexavigesimal']);
 
-JournalApp.controller('JournalController', ['$scope', '$http', function($scope, $http) {
+JournalApp.controller('JournalController', ['$scope', '$http', '$timeout', '$interval', function($scope, $http, $timeout, $interval) {
 
 	$scope.questions = [];
 	$scope.newQuestion = {};
@@ -13,10 +13,26 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 	$scope.currLoad = 0;
 	$scope.MAX_LOAD = 1;
 
+	$scope.initProgress = 0;
+	$scope.loadingComplete = false;
+
 	$http.get('/questions').success(function(questions)
 	{
 		$scope.questions = questions;
 		$scope.currLoad++;
+	});
+
+	$scope.$watch('currLoad', function(newValue, oldValue) {
+		$scope.initProgress = $scope.currLoad / $scope.MAX_LOAD * 100;
+		
+		$interval(function () {
+			$scope.initProgress += 1;
+		}, 100, 20);
+
+		if($scope.currLoad == $scope.MAX_LOAD)
+			$timeout(function () {
+				$scope.loadingComplete = true;
+			}, 3000);
 	});
 
 	$scope.addAnswer = function()
