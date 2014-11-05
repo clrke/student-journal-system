@@ -18,18 +18,20 @@
 				</div>
 			</div>
 		</form>
-		<h1> Add another Timeline </h1>
-		{{ Form::open(['url' => 'timelines'])}}
-			<div class="input-group">
-				{{ Form::text('timeline', null, ['class' => 'form-control']) }}
-				<div class="input-group-btn">
-					{{ Form::button('Add', ['class' =>'btn btn-primary', 'type' => 'submit'])}}
+		@if($debug)
+			<h1> Add another Timeline </h1>
+			{{ Form::open(['url' => 'timelines'])}}
+				<div class="input-group">
+					{{ Form::text('timeline', null, ['class' => 'form-control']) }}
+					<div class="input-group-btn">
+						{{ Form::button('Add', ['class' =>'btn btn-primary', 'type' => 'submit'])}}
+					</div>
 				</div>
-			</div>
-			{{ Form::input('date', 'start', null, ['class' => 'form-control'])}}
-			{{ Form::input('date', 'end', null, ['class' => 'form-control'])}}
-			{{ Form::hidden('flag', 1)}}
-		{{ Form::close() }}
+				{{ Form::input('date', 'start', null, ['class' => 'form-control'])}}
+				{{ Form::input('date', 'end', null, ['class' => 'form-control'])}}
+				{{ Form::hidden('flag', 1)}}
+			{{ Form::close() }}
+		@endif
 		<?php $first = true; ?>
 		@foreach($daysOfWeek as $key => $day)
 			@if( $debug || count(Timeline::current()->schedules()->whereDayOfWeek($key)->get()))
