@@ -52,6 +52,7 @@ return array(
 			'prefix'   => '',
 		),
 
+		// Please make sure you set all SJS environment variables
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => getenv('SJS_SERVER'),
