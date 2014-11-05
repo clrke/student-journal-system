@@ -183,6 +183,6 @@ Route::get('/quotes', function()
 
 Route::get('/activities', function()
 {
-	return Activity::with('subject')->get();
+	return Timeline::current()->activities()->get();
 });
 

@@ -23,4 +23,9 @@ class Timeline extends Eloquent
 	{
 		return $this->hasManyThrough('Deadline', 'Subject')->orderBy('deadline', 'desc');
 	}
+
+	public function activities()
+	{
+		return $this->hasManyThrough('Activity', 'Subject')->with('subject');
+	}
 }
