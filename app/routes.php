@@ -63,6 +63,13 @@ Route::get('timelines', function()
 	return Timeline::all();
 });
 
+Route::post('timelines/current', function()
+{
+	Timeline::whereFlag(1)->update(['flag' => 0]);
+	Timeline::whereId(Input::get('timeline'))->update(['flag' => 1]);
+	return Redirect::back();
+});
+
 Route::post('timelines', function()
 {
 	Timeline::whereFlag(1)->update(['flag' => 0]);

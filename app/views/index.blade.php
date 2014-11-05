@@ -10,8 +10,13 @@
 	</div>
 	<div class="col-md-4 panel panel-default">
 		<h1> Current Timeline</h1>
-		<form ng-submit="changeTimeline()" class="form">
-			{{ Form::select('timeline', $timelines, Timeline::current()->id, ['class' => 'form-control'])}}
+		<form method="POST" action="/timelines/current" >
+			<div class="input-group">
+				{{ Form::select('timeline', $timelines, Timeline::current()->id, ['class' => 'form-control'])}}
+				<div class="input-group-btn">
+					{{ Form::submit('Change', ['class' => 'btn btn-primary']) }}
+				</div>
+			</div>
 		</form>
 		<h1> Add another Timeline </h1>
 		{{ Form::open(['url' => 'timelines'])}}
