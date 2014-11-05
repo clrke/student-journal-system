@@ -113,6 +113,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 
 		$http.get('timelines/current/id').success(function(timeline_id) {
 			$scope.timeline_id = timeline_id;
+			$scope.setTimeline = timeline_id;
 			$scope.currLoad++;
 		});
 	}

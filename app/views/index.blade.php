@@ -11,9 +11,9 @@
 	<div class="col-md-4 panel panel-default">
 		<h1> Current Timeline</h1>
 		<form method="POST" action="/timelines/current" >
-			<div class="input-group">
-				{{ Form::select('timeline', $timelines, Timeline::current()->id, ['class' => 'form-control'])}}
-				<div class="input-group-btn">
+			<div ng-class="{'input-group':timeline_id != setTimeline}">
+				{{ Form::select('timeline', $timelines, Timeline::current()->id, ['class' => 'form-control', 'ng-model' => 'setTimeline'])}}
+				<div class="input-group-btn" ng-if='timeline_id != setTimeline'>
 					{{ Form::submit('Change', ['class' => 'btn btn-primary']) }}
 				</div>
 			</div>
