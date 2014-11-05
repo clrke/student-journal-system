@@ -96,7 +96,7 @@
 							<div class="btn-group btn-group-justified" ng-repeat="week in [0, 1, 2, 3, 4, 5]">
 								<div class="btn-group" ng-repeat="day in daysInWeek(currMonth, week, year)">
 									<button type="button" class="btn" ng-class="currDay == day? 'btn-primary' : 'btn-default'"
-										ng-click="day < 1 || day > lastDay? '' : setDay(day, $index); " ng-style="{'background-color': currDay != day? getActivityDayColor(year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + day).slice(-2)):null}">
+										ng-click="day < 1 || day > lastDay? '' : setDay(day, $index); " ng-style="{'background-color': currDay != day? getActivityDayColor(year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + day).slice(-2)):null, 'color': currDay != day? getActivityDayFontColor(year+'-'+('0' + (month+1)).slice(-2)+'-'+('0' + day).slice(-2)):null}">
 										@{{ day < 1 || day > lastDay ? '&nbsp;' : day }}
 									</button>
 								</div>

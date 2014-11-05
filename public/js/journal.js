@@ -130,6 +130,21 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		return 'rgb(255, 255, 255)';
 	}
 
+	$scope.getActivityDayFontColor = function (activityDay) {
+		for (var i = 0; i < $scope.activityDays.length; i++) {
+			if(activityDay == $scope.activityDays[i].day)
+			{
+				var intensity = Math.round(255-($scope.activityDays[i].chars * 255 / $scope.maxActivity));
+
+				if(intensity > 127)
+					return 'rgb(0, 0, 0)';
+				else
+					return 'rgb(255, 255, 255)';
+			}	
+		}
+		return 'rgb(0, 0, 0)';
+	}
+
 	$scope.addMonth = function() {
 		$scope.month = ($scope.month+1) % 12;
 		$scope.setMonths();
