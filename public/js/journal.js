@@ -149,12 +149,16 @@ JournalApp.controller('JournalController', ['$scope', '$http', function($scope, 
 		$scope.month = ($scope.month+1) % 12;
 		$scope.setMonths();
 		if($scope.currMonth == 'January') $scope.year++;
+		$scope.currDay = null;
+		$scope.currDayOfWeek = null;
 	}
 
 	$scope.subMonth = function() {
 		$scope.month = ($scope.month+11) % 12;
 		$scope.setMonths();
 		if($scope.currMonth == 'December') $scope.year--;
+		$scope.currDay = null;
+		$scope.currDayOfWeek = null;
 	}
 
 	$scope.setMonths = function() {
