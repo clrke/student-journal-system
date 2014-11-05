@@ -28,4 +28,9 @@ class Timeline extends Eloquent
 	{
 		return $this->hasManyThrough('Activity', 'Subject')->with('subject');
 	}
+
+	public function questions()
+	{
+		return $this->hasManyThrough('Question', 'Subject')->with('answers')->with('sabotages');
+	}
 }

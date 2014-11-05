@@ -158,7 +158,7 @@ Route::get('/questions/add', function()
 
 Route::get('/questions', function()
 {
-	return Question::with('answers')->with('sabotages')->get();
+	return Timeline::current()->questions;
 });
 
 Route::post('/questions', function()
