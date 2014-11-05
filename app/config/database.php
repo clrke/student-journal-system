@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'sjs',
-			'username'  => 'root',
-			'password'  => '',
+			'host'      => getenv('SJS_SERVER'),
+			'database'  => getenv('SJS_DATABASE'),
+			'username'  => getenv('SJS_USER'),
+			'password'  => getenv('SJS_PASSWORD'),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
