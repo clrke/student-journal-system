@@ -178,7 +178,7 @@
 									</form>
 								</div>
 							</div>
-							<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()">
+							<form ng-submit="correct ? refreshQuestion() : popQuizSubmit()" autocomplete="off">
 								<div ng-class="question.noData? 'panel panel-danger' : 'panel panel-primary'" ng-controller="HexavigesimalController as hexavigesimal">
 									<div class="panel-heading">
 										<h3 class="panel-title">

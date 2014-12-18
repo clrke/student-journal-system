@@ -27,7 +27,7 @@
 			</div>
 
 			<div class="panel-body">
-				<form class="form-horizontal" ng-submit="addQuestion()">
+				<form class="form-horizontal" ng-submit="addQuestion()" autocomplete="off">
 					<div class="form-group row">
 						<div class="col-md-4">{{ Form::label('Subject *')}}</div>
 						<div class="col-md-8">{{ Form::select('subject_id', $subjects, '', ['class' => 'form-control', 'ng-model' => 'newQuestion.subject_id'])}}</div>
@@ -50,14 +50,14 @@
 							<div class="col-md-4" ng-if=" ! $first"> &nbsp; </div>
 							<div class="col-md-8">
 								<div class="input-group">
-									<span class="input-group-addon" ng-if="newQuestion.answers.length > 1"> 
-										@{{ numbering == 2? hexavigesimal.convert($index+1) : $index+1 }} 
+									<span class="input-group-addon" ng-if="newQuestion.answers.length > 1">
+										@{{ numbering == 2? hexavigesimal.convert($index+1) : $index+1 }}
 									</span>
 									<input type="text" class="form-control" ng-model="answer.answer" required>
 									<span class="btn btn-danger input-group-addon" ng-if=" ! $first" ng-click="deleteAnswer(newQuestion, answer)">
 										<i class="fa fa-minus"> </i>
 									</span>
-									<span class="btn btn-primary input-group-addon" ng-click="addAnswer(newQuestion)"> 
+									<span class="btn btn-primary input-group-addon" ng-click="addAnswer(newQuestion)">
 										<i class="fa fa-plus"> </i>
 									</span>
 								</div>
@@ -74,7 +74,7 @@
 									<span class="btn btn-danger input-group-addon" ng-if=" ! $first" ng-click="deleteSabotage(newQuestion, sabotage)">
 										<i class="fa fa-minus"> </i>
 									</span>
-									<span class="btn btn-primary input-group-addon" ng-click="addSabotage(newQuestion)"> 
+									<span class="btn btn-primary input-group-addon" ng-click="addSabotage(newQuestion)">
 										<i class="fa fa-plus"> </i>
 									</span>
 								</div>
