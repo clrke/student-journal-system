@@ -13,7 +13,7 @@
 
 use Carbon\Carbon;
 
-Route::get('/', function()
+function homepageView ($debug)
 {
 	$days = [];
 	for($day = Carbon::now()->hour(0)->minute(0)->second(0); $day > Carbon::now()->subWeeks(2); $day->subDay())
@@ -24,38 +24,23 @@ Route::get('/', function()
 	$subjectsList = Timeline::current()->subjects->lists('subject', 'id');
 	$week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 	$daysOfWeek = [];
-	for ($i=date("N"); $i < 7; $i++) { 
+	for ($i=date("N"); $i < 7; $i++) {
 		$daysOfWeek[$i] = $week[$i];
-	}	
+	}
 	for ($i=0; $i < date("N"); $i++) {
 		$daysOfWeek[$i] = $week[$i];
 	}
-	$debug = false;
 
 	return View::make('index', compact('timelines', 'subjects', 'subjectsList', 'days', 'daysOfWeek', 'debug'));
+};
+
+Route::get('/', function ()
+{
+	return homepageView(false);
 });
-
-Route::get('/debug', function()
+Route::get('/debug', function ()
 {
-	$days = [];
-
-	for($day = Carbon::now()->hour(0)->minute(0)->second(0); $day > Carbon::now()->subWeeks(2); $day->subDay())
-		array_push($days, clone($day));
-
-	$timelines = Timeline::all()->lists('timeline', 'id');
-	$subjects = Timeline::current()->subjects;
-	$subjectsList = Timeline::current()->subjects->lists('subject', 'id');
-	$week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-	$daysOfWeek = [];
-	for ($i=date("N"); $i < 7; $i++) { 
-		$daysOfWeek[$i] = $week[$i];
-	}
-	for ($i=0; $i < date("N"); $i++) {
-		$daysOfWeek[$i] = $week[$i];
-	}
-	$debug = true;
-
-	return View::make('index', compact('timelines', 'subjects', 'subjectsList', 'days', 'daysOfWeek', 'debug'));
+	return homepageView(true);
 });
 
 Route::get('timelines', function()
@@ -124,7 +109,7 @@ Route::get('diffForHumans/{date}', function($date)
 	$date = new Carbon($date);
 
 	$diffInHours = $date->diffInHours(Carbon::now(), false);
-	
+
 	if($diffInHours <= 24)
 	{
 		if($diffInHours >= 0)
@@ -145,7 +130,7 @@ Route::post('deadlines', function()
 	return Deadline::create(Input::all());
 });
 
-Route::delete('deadlines/{id}', function($id) 
+Route::delete('deadlines/{id}', function($id)
 {
 	return Deadline::destroy($id);
 });
@@ -162,16 +147,16 @@ Route::get('/questions', function()
 });
 
 Route::post('/questions', function()
-{	
+{
 	$question = Question::create(Input::all());
 
 	foreach(Input::get('answers') as $answer)
 		if(isset($answer['answer']))
 			Answer::create(['question_id' => $question->id, 'answer' => $answer['answer'], 'correct' => 1]);
-	
+
 	foreach(Input::get('sabotages') as $sabotage)
 		if(isset($sabotage['answer']))
-			Answer::create(['question_id' => $question->id, 'answer' => $sabotage['answer'], 'correct' => 0]);	
+			Answer::create(['question_id' => $question->id, 'answer' => $sabotage['answer'], 'correct' => 0]);
 
 	return Question::whereId($question->id)->with('answers')->first();
 });
