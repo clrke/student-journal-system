@@ -5,8 +5,8 @@
 		<div class="col-md-12">
 			<div class="panel panel-default" style="margin-bottom: 0px">
 				<div class="panel-body">
-					<h3> 
-						<button class="btn btn-default pull-right" ng-click="shuffleArray(quoteList);">Refresh</button> 
+					<h3>
+						<button class="btn btn-default pull-right" ng-click="shuffleArray(quoteList);">Refresh</button>
 						@{{ quoteList[0].quote }}
 					</h3>
 					<h4> - @{{ quoteList[1].source }} </h4>
@@ -31,13 +31,13 @@
 						<h1> Add another Timeline </h1>
 						{{ Form::open(['url' => 'timelines'])}}
 							<div class="input-group">
-								{{ Form::text('timeline', null, ['class' => 'form-control']) }}
+								{{ Form::text('timeline', null, ['class' => 'form-control', 'placeholder' => 'Timeline name']) }}
 								<div class="input-group-btn">
 									{{ Form::button('Add', ['class' =>'btn btn-primary', 'type' => 'submit'])}}
 								</div>
 							</div>
-							{{ Form::input('date', 'start', null, ['class' => 'form-control'])}}
-							{{ Form::input('date', 'end', null, ['class' => 'form-control'])}}
+							{{ Form::input('date', 'start', null, ['class' => 'form-control', 'placeholder' => 'Start date'])}}
+							{{ Form::input('date', 'end', null, ['class' => 'form-control', 'placeholder' => 'End date'])}}
 							{{ Form::hidden('flag', 1)}}
 						{{ Form::close() }}
 					@endif
@@ -132,12 +132,12 @@
 									<h3 class="panel-title"> Settings </h3>
 								</div>
 								<div class="panel-body">
-									<form ng-submit="questionsQueue = []; refreshQuestion()"> 
+									<form ng-submit="questionsQueue = []; refreshQuestion()">
 										<div class="pull-right">
 											<button class="btn btn-primary"> Apply </button>
 										</div>
 										<div class="form-group" ng-init="$parent.type = 2">
-											<label> Type: </label> 
+											<label> Type: </label>
 											{{ Form::radio('type', '1', 0, ['ng-model' => '$parent.type', 'ng-value' => '1'])}} Multiple Choice
 											{{ Form::radio('type', '2', 1, ['ng-model' => '$parent.type', 'ng-value' => '2'])}} Identification
 											{{ Form::radio('type', '3', 0, ['ng-model' => '$parent.type', 'ng-value' => '3'])}} Hardcore
@@ -170,7 +170,7 @@
 											{{ Form::radio('numbering', '2', 0, ['ng-model' => '$parent.numbering', 'ng-value' => '2'])}} Hexavigesimal
 										</div>
 										<div class="form-group col-md-6" ng-init="$parent.numbering = 1">
-											<label> Shuffle Questions? </label> {{ Form::checkbox('shuffleQuestions', '1', 1, ['ng-model' => 'shuffleQuestions']) }} 
+											<label> Shuffle Questions? </label> {{ Form::checkbox('shuffleQuestions', '1', 1, ['ng-model' => 'shuffleQuestions']) }}
 										</div>
 										<div class="form-group col-md-6">
 											<b>@{{ questionsCount }}</b> question(s) | <b>@{{ itemsCount }}</b> item(s)
@@ -190,19 +190,19 @@
 									</div>
 									<div class="panel-body" ng-show="type === 1 && !question.noData">
 										<div class="row">
-											<div class="form-group col-md-6" ng-repeat="answer in question.allAnswers">	
+											<div class="form-group col-md-6" ng-repeat="answer in question.allAnswers">
 												{{ Form::checkbox('name', 'value', 0, ['ng-model' => 'answer.chosen', 'ng-show' => 'question.answers.length > 1'])}}
 												{{ Form::radio('answer_chosen', '', 0, ['ng-model' => '$parent.answer_chosen', 'ng-value' => 'answer.id', 'ng-show' => 'question.answers.length == 1'])}}
 												@{{ answer.answer }}
 												<b> @{{ answer.judge }} </b>
 											</div>
-										</div> 
+										</div>
 									</div>
 									<div class="panel-body" ng-show="type === 2 && !question.noData">
 										<div class="row">
 											<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 												<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
-													<span class="input-group-addon" ng-if="question.answers.length > 1"> 
+													<span class="input-group-addon" ng-if="question.answers.length > 1">
 														@{{ numbering == 2? hexavigesimal.convert(answer.id) : answer.id }}
 													</span>
 													{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;']) }}
@@ -216,7 +216,7 @@
 											<div ng-class="[answer.status, question.answers.length==1? 'col-md-12':'col-md-6']" class="form-group" ng-repeat="answer in question.answers">
 												<div ng-class="question.answers.length > 1 ? 'input-group' : ''">
 													<span class="input-group-addon" ng-if="question.answers.length > 1">
-														@{{ numbering == 2? hexavigesimal.convert(answer.id) : answer.id }} 
+														@{{ numbering == 2? hexavigesimal.convert(answer.id) : answer.id }}
 													</span>
 													{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'focus-asap' => 'shouldFocus', 'ng-if' => '$first', 'ng-init' => 'shouldFocus=true;', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
 													{{ Form::text('name', '', ['class' => ' form-control', 'ng-model' => 'answer.try', 'ng-if' => ' ! $first', 'ng-change' => 'checkAnswer(answer);', 'ng-trim' => 'false']) }}
@@ -259,17 +259,17 @@
 												<small>@{{ deadline.deadline.formatted }} (@{{ deadline.deadline.diffForHumans }})</small>
 											</h1>
 										</div>
-										<div class="panel-body">	
-											<h4> @{{ deadline.caption }} </h4> 
+										<div class="panel-body">
+											<h4> @{{ deadline.caption }} </h4>
 											<!-- <div ng-repeat="checklist in deadline.checklists" class="form-group input-group">
 												<span class="input-group-addon">
-													<input type="checkbox" ng-model="checklist.done"> 
+													<input type="checkbox" ng-model="checklist.done">
 												</span>
 												<input type="text" ng-model="checklist.caption" class="form-control">
 												<span class="input-group-addon">
 													<button ng-click="deleteChecklist(checklist)" class="btn btn-xs btn-danger">
 														x
-													</button> 
+													</button>
 												</span>
 											</div>
 											<button ng-click="addChecklist(deadline)" class="btn btn-primary"> + </button> -->
