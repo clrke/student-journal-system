@@ -5,7 +5,7 @@
 		{{ HTML::style('/css/bootstrap.min.css') }}
   		{{ HTML::style('/css/journal.css') }}
   		{{ HTML::style('/css/grg.css')}}
-  		{{ HTML::style('font-awesome-4.1.0/css/font-awesome.css')}}
+		{{ HTML::style('font-awesome-4.1.0/css/font-awesome.min.css') }}
 		{{ HTML::script('/js/jquery.min.js')}}
 		{{ HTML::script('/js/underscore.min.js')}}
 		{{ HTML::script('/js/bootstrap.min.js')}}
