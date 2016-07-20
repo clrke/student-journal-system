@@ -314,7 +314,7 @@
 						<div class="col-md-4">
 							<form ng-submit="addSubject()" class="form">
 								<div class="form-group">
-									{{ Form::text('text', null, ['class' => 'form-control', 'placeholder' => 'Subject Name', 'ng-model' => 'newSubject', 'style' => 'margin-bottom: 8px'])}}
+									{{ Form::text('text', null, ['class' => 'form-control', 'placeholder' => 'Subject Name', 'ng-model' => 'newSubject', 'style' => 'margin-bottom: 8px','ng-change'=>'getChange(newSubject)','id'=>'newsubject'])}}
 									{{ Form::submit('Add Subject', ['class' => 'form-control btn btn-primary'])}}
 								</div>
 							</form>

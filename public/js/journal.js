@@ -17,6 +17,7 @@ JournalApp.controller('JournalController', ['$scope', '$http', '$timeout', '$int
 	$scope.enum_filter = '';
 	$scope.batch_enum = '';
 	$scope.shuffleQuestions = 0;
+	$scope.newSubject="";
 
 	$scope.currDayOfWeek = new Date().getDay();
 	$scope.currDay = new Date().getDate();
@@ -441,15 +442,18 @@ JournalApp.controller('JournalController', ['$scope', '$http', '$timeout', '$int
 		}
 	}
 
+	$scope.getChange = function(value){
+		$scope.newSubject = value;
+		return value;
+	};
 	$scope.addSubject = function() {
 		var subject = ({
 			timeline_id: $scope.timeline_id,
 			subject: $scope.newSubject
 		});
-		$scope.newSubject = "";
-
 		$http.post('subjects', subject);
 		$scope.subjects.push(subject);
+		$('#newsubject').val('');
 	}
 
 	$scope.editSubject = function(id) {
