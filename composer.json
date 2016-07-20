@@ -4,6 +4,8 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"require": {
+                "php": "^5.3.27",
+                "ext-mcrypt": "*",
 		"laravel/framework": "4.1.*"
 	},
 	"autoload": {
